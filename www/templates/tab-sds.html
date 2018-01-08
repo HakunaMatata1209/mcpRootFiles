@@ -1,9 +1,53 @@
-<ion-view view-title="Account">
-  <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
-  </ion-content>
+<ion-view>
+    <ion-nav-buttons side="left">
+        <h5 class="headerText">SDS Links</h5>
+    </ion-nav-buttons>        
+    <ion-nav-buttons side="right">
+        <span ><h5 class="headerText1"> Customer:{{customerId}}</h5><span></span>
+            <button ng-click="cartLogo(cartLength);" class="cart-btn button button-icon icon  icon-right"  > <i class = "icon icon ion-ios-cart logout-class"  ></i> <ion-badge ng-show="cartLength" class="cart-badge"><span class="cart-count">{{cartLength}}</span></ion-badge></button>
+            <button  ng-click="logoutHome();" class="button button-icon icon  icon-right"><i class = "icon icon ion-log-out logout-class"  ></i></button> 
+        </span> 
+    </ion-nav-buttons>
+    <ion-content  overflow-scroll="true">
+        <div class="list card pb0 link-card"    ng-click="openurl('https://www.mcphersonoil.com/products/proteck-oil/')">
+            <div class="item row item-borderless item-ionic-card sds-image margin-top-10"   >
+                <img src="img/link1.png" alt=""/>
+            </div>
+            <a   class="  text-align-center margin-top-10"
+                      >
+                <i class="icon ion-android-open"></i>
+                Proteck Oil
+            </a>
+        </div>
+        <div class="list card pb0 link-card"   ng-click="openurl('https://www.exxon.com/en/msds')">
+            <div class="item row item-borderless item-ionic-card sds-image margin-top-10">
+                <img src="img/link2.png">
+            </div>
+            <a  class=" text-align-center">
+                <i class="icon ion-android-open"></i>
+                Exxon Mobil MSDS
+            </a>
+        </div> 
+        <div class="list card pb0 link-card"   >
+            <div class="item row item-borderless item-ionic-card sds-image margin-top-10">
+                <img src="img/link3.jpg">
+            </div>
+            <a   ng-click="openurl('https://www.mcphersonoil.com/wp-content/uploads/2015/12/cat_hydo_msds.pdf')" class="  text-align-center ">
+                <i class="icon ion-android-open"></i>
+                CAT Hydraulic Oil (HYDO) SAE 10W
+            </a>
+            <a  ng-click="openurl('https://www.mcphersonoil.com/wp-content/uploads/2015/12/cat_30_msds.pdf')" class=" text-align-center">
+                <i class="icon ion-android-open"></i>
+                CAT Transmission and Drive Trail Oil (TDTO) 30
+            </a>
+            <a   ng-click="openurl('https://www.mcphersonoil.com/wp-content/uploads/2015/12/cat_50_msds.pdf')" class=" text-align-center">
+                <i class="icon ion-android-open"></i>
+                CAT Transmission and Drive Trail Oil (TDTO) 30
+            </a>
+            <a   ng-click="openurl('https://www.mcphersonoil.com/wp-content/uploads/2015/12/cat_deo_15w_msds.pdf')" class="text-align-center">
+                <i class="icon ion-android-open"></i>
+                CAT DEO 15W-40 (Diesel Oil)
+            </a>
+        </div>
+    </ion-content>
 </ion-view>

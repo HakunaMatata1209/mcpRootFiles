@@ -1,0 +1,145 @@
+<ion-view  hide-back-button="true"> 
+    <ion-nav-buttons side="left"  class="headerbar-yellow font-size-14"  s >
+        <button   class="button button-clear text-yellow1 font-size-14" ng-click="gotoInvoices()" >
+            <i class="icon ion-ios-arrow-back text-yellow1 "></i>
+            Invoice Details</button>
+    </ion-nav-buttons>        
+    <ion-nav-buttons side="right">
+        <span ><h5 class="headerText1"> Customer:{{customerId}}</h5><span></span>  <button  ng-click="logoutHome();" class="button button-icon icon  icon-right"><i class = "icon icon ion-log-out logout-class" ></i></button> </span>
+    </ion-nav-buttons> 
+    <ion-content class="has-header"  overflow-scroll="true">  
+        <img src="img/logo.png" alt="" width="" height="" class="invoicelogo">
+        <div class="cartHeaders font-bold">Invoice Details</div>
+        <ion-card   class="p10 padding" >  
+            <ion-item  class="item-ionic-card1 text-align-center" >                
+                <div> <p class="font-bold">Remit Payment To:</p>
+                    <div>
+                        <p>  PO Box 890 145, Charlotte, Nc 28289-0415</p>
+                        <p >www.mcphersonoil.com</p>
+                    </div>
+                </div>
+            </ion-item> 
+        </ion-card>
+        <ion-card   class="p10 padding" >  
+            <ion-item  class="item-ionic-card1 text-align-center"  >                
+                <div> <p class="font-bold">Correspondence and Purchase Orders:</p>
+                    <div>
+                        <p> Customer Service Department</p>
+                        <p> 5051 Cardinal Street, 1-888-802-7500</p>
+                        <p>customercare@mcphersonoil.com</p>
+                    </div>
+                </div>
+            </ion-item> 
+        </ion-card>
+        <div ng-repeat="i in invoiceFullDetails">       
+            <ion-card   class="p10 padding" >  
+                <ion-item  class="item-ionic-card1 text-align-center"  >                
+                    <div> <p class="font-bold">Sold To:</p>
+                        <div>
+                            <span > {{i.tnstnssoldtoaddressline1}}</span>
+                            <span  >{{i.tnssoldtopostalcode}}</span>
+                        </div>
+                    </div>
+                </ion-item> 
+            </ion-card>
+            <ion-card   class="p10 padding" >  
+                <ion-item  class="item-ionic-card1 text-align-center" > 
+                    <div ng-show="i.tnsSHIPTOADDRESSLINE1 != null">
+                        <p class="font-bold">Ship To:</p>
+                        <span >   {{i.tnsSHIPTOADDRESSLINE1}}</span>  
+                    </div>
+                    <div ng-show="i.tnsSHIPTOPOSTALCODE != null">
+                        <span >   {{i.tnsSHIPTOPOSTALCODE}}</span>
+                    </div>
+                </ion-item> 
+            </ion-card> 
+            <ion-card    class="p10 padding" >  
+                <ion-item  class="item-ionic-card1 text-align-center">
+                    <div class="row line-height"  ng-show="i.tnsInvoice_Date != null">
+                        <div class="col-md-6 col-40  text-left font-bold">Invoice date : </div>
+                        <div class="col-md-6 col-80  text-left"> {{i.tnsInvoice_Date}}</div>
+                    </div>
+                    <div class="row line-height"  ng-show="i.tnsCustomer != null">
+                        <div class="col-md-6 col-40  text-left font-bold">Customer: </div>
+                        <div class="col-md-6 col-80  text-left"> {{i.tnsCustomer}}</div>
+                    </div>
+
+                    <div class="row line-height"  ng-show="i.tnsBrnPlt != null">
+                        <div class="col-md-6 col-40  text-left font-bold">Brn/Plt: </div>
+                        <div class="col-md-6 col-80  text-left"> {{i.tnsBrnPlt}}</div>
+                    </div>
+                    <div class="row line-height"  ng-show="i.tnsOrderNo != null">
+                        <div class="col-md-6 col-40  text-left font-bold">Order number:</div>
+                        <div class="col-md-6 col-80  text-left"> {{i.tnsOrderNo}}</div>
+                    </div>
+                    <div class="row line-height"  ng-show="i.tnsInvoiceNo != null">
+                        <div class="col-md-6 col-40  text-left font-bold">Invoice number:</div>
+                        <div class="col-md-6 col-80  text-left"> {{i.tnsInvoiceNo}}</div>
+                    </div>
+                </ion-item> 
+            </ion-card> 
+        </div>
+        <div class="cartHeaders font-bold">Items:</div> 
+        <ion-card    class="p10 padding" ng-repeat="j in invoiceItemDetails">  
+            <ion-item  class="item-ionic-card1 text-align-center"  >
+
+                <!--                <div>
+                                    <span class="font-bold"> Customer po</span> :{{j.tnsCustomerPO}} 
+                                </div>-->
+                <!--                <div>
+                                    <span class="font-bold"> Delivery instructions</span>  {{j.tnsDeliveryInstructions}} 
+                                </div>-->
+                <div class="row line-height"  ng-show="j.tnsRequestDate != null">
+                    <div class="col-md-6 col-40  text-left font-bold"> Invoice date:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsRequestDate}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsLineNo != null">
+                    <div class="col-md-6 col-40  text-left font-bold"> Line no:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsLineNo}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsLineNo != null">
+                    <div class="col-md-6 col-40  text-left font-bold"> Line no:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsLineNo}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsItemNumber != null">
+                    <div class="col-md-6 col-40  text-left font-bold">Invoice number:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsItemNumber}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsUnitOfMeasure != null">
+                    <div class="col-md-6 col-40  text-left font-bold">Unit of measure:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsUnitOfMeasure}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsPrice != null">
+                    <div class="col-md-6 col-40  text-left font-bold">Price:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsPrice}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsextendedprice != null">
+                    <div class="col-md-6 col-40  text-left font-bold">Extended Price:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsextendedprice}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsFOB != null">
+                    <div class="col-md-6 col-40  text-left font-bold">FOB:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsFOB}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsDESCRIPTION != null">
+                    <div class="col-md-6 col-40  text-left font-bold">Description:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsDESCRIPTION}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsNETPRICE != null">
+                    <div class="col-md-6 col-40  text-left font-bold">Net Price:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsNETPRICE}}</div>
+                </div>
+                <div class="row line-height"  ng-show="j.tnsTAX != null">
+                    <div class="col-md-6 col-40  text-left font-bold">Tax:</div>
+                    <div class="col-md-6 col-80  text-left"> {{j.tnsTAX}}</div>
+                </div>
+
+                <div class="padding">
+                    <button type="button"     class="button button-positive button-clear button-block block border-radius-5" >Total :{{
+                        j.tnsextendedprice | currency}}</button>
+                </div>
+            </ion-item>
+
+        </ion-card> 
+    </ion-content>
+</ion-view>

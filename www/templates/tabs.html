@@ -1,24 +1,30 @@
-<!--
-Create tabs with an icon and label, using the tabs-positive style.
-Each tab's child <ion-nav-view> directive will have its own
-navigation history that also transitions its views in and out.
--->
-<ion-tabs class="tabs-icon-top tabs-color-active-positive">
+<ion-tabs class="tabs-icon-top tabs-color-active-dark" color="dark">
+    <!-- tabs names-->
 
-  <!-- Dashboard Tab -->
-  <ion-tab title="Status" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash">
-    <ion-nav-view name="tab-dash"></ion-nav-view>
-  </ion-tab>
+    <!-- Dashboard Tab -->
+    <ion-tab title="Home" icon-off="ion-home" icon-on="ion-home" href="#/tab/home" >
+        <!--<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFWSURBVFhH7ZUxTsMwFIaDkLrAxAYjzLADBygnQNyAiR2uAEdA3IATwAFgZ+8IW6d2QELA/0l+KI5jkby4sOSTPsny8/vttG5TjQxkK/gvbMuXIOM/ZVfO5FeQ8Z6sY7Xi7MtXSfhTkPGbPJDGSg5wKOeS4Ae5EWTMHLUjCcUPMJULSei9nEiDMXPUlvIkjIsd4FS+SwJv5bpswhw11tjaIgc4lx+SsBu5JnNQY41tPvgAl/IzeMVER1hLDwfo0/cDT3ItCeDp+RT60ueTi2h+l2fSC712H+5k292JaLvNQyGDLDKbv56ITfkoWYjHshRkWS57sFcEL5RnaYuwNPVs9opeYlwYCvX/9xxWz5nD6rZHcrEv5I7sGpQzh9XZg72ydA1q4u1L8AZ5+xK8Qd6+BG+Qty/BG+TtS/AGefsSvEHevgRvkLcvwRauyl9payrpyEiNqvoGY87ffRrIcoUAAAAASUVORK5CYII=">-->
+        <ion-nav-view name="tab-home"></ion-nav-view>
+    </ion-tab>
+    <!-- Chats Tab -->
+    <ion-tab title="Orders" icon-off="ion-ios-list-outline" icon-on="ion-ios-list-outline" href="#/tab/orders"     >
+        <ion-nav-view name="tab-orders"></ion-nav-view>
+    </ion-tab>
 
-  <!-- Chats Tab -->
-  <ion-tab title="Chats" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/chats">
-    <ion-nav-view name="tab-chats"></ion-nav-view>
-  </ion-tab>
-
-  <!-- Account Tab -->
-  <ion-tab title="Account" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/account">
-    <ion-nav-view name="tab-account"></ion-nav-view>
-  </ion-tab>
-
-
+    <!-- Account Tab -->
+    <ion-tab title="Eta" icon-off="ion-clock" icon-on="ion-clock" href="#/tab/eta">
+        <ion-nav-view name="tab-eta"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Invoices" icon-off="ion-ios-paper-outline" icon-on="ion-ios-paper-outline" href="#/tab/invoices">
+        <ion-nav-view name="tab-invoices"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Sds" icon-off="ion-link" icon-on="ion-link" href="#/tab/sds">
+        <ion-nav-view name="tab-sds"></ion-nav-view>
+    </ion-tab>
+<!--    <ion-tab title="contact" icon-off="contact" icon-on="contact"  href="#/tab/contact">
+        <ion-nav-view name="tab-contact"></ion-nav-view>
+    </ion-tab>-->
+<!--    <ion-tab title="logout" icon-off="logout" icon-on="logout"    href="#/sign-in">
+        <ion-nav-view name="tab-logout"></ion-nav-view>
+    </ion-tab>-->
 </ion-tabs>

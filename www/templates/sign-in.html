@@ -1,0 +1,29 @@
+<ion-view hide-nav-bar="true"   class="mcp-background-color">
+    <ion-content class='form-padding'>
+        <br>
+      <br> 
+      <!--    <br> -->
+        <img src="img/mcp_logo.png" class="logo mcp-logo margin-bottom-5 mcp-logo-width"/>
+        <p class="text-center  mt-6 mar mcp-logo-text" > McPHERSON OIL</p>
+        <br>
+        <br> 
+        <form class=" border-radius-5 form-background" name="myForm" novalidate>
+            <div class="list   item-borderless pb0" >
+                <label class="item item-borderless item-input border-radius-5 margin-bottom-5 form-label margin-top-10 margin-bottom-5"  > 
+                    <input  class="text-color-black form-input" type="email" name="username" ng-model="username" ng-minlength="5" required autocomplete="off" placeholder="Email">
+                </label> 
+                <label class="item item-borderless item-input  border-radius-5 form-label" placeholder="Password"  >
+                    <input  class="text-color-black form-input" type="password" id="password" name="password" ng-model="password" placeholder="Password" required autocomplete="off">
+                </label>             
+            </div> 
+ 
+            <div class="padding text-center">
+                <button type="button" class="button button-block  round outline border-radius-5 mcp-button-black"  ng-disabled="myForm.$invalid" ng-click="signIn(username, password)">Login</button>
+                <span ng-click="signUpNavigation();" > <span class="text-color-black">Don't you have an account?</span> <a>Signup</a></span><br>
+                 <span ng-click="forgotNavigation();" > <span class="text-color-black"><a>Forgot Password?</a></span></span>
+            </div> 
+        </form>
+
+    </ion-content>
+    <div class="spinner" ng-show="loading"></div>
+</ion-view> 

@@ -1,9 +1,13 @@
-<ion-view view-title="Account">
+<ion-view  >
+        <ion-nav-buttons side="left">
+        <h5 class="headerText">Contact</h5>
+    </ion-nav-buttons>        
+    <ion-nav-buttons side="right">
+        <span ><h5 class="headerText1"> Customer:{{customerId}}</h5><span></span>  <button  ng-click="logoutHome();" class="button button-icon icon  icon-right"><i class = "icon icon ion-log-out logout-class" ></i></button> </span>
+               
+    </ion-nav-buttons>
   <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
+Contact details will be shown here
+         
   </ion-content>
 </ion-view>

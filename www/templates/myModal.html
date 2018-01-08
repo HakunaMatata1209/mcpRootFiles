@@ -1,0 +1,53 @@
+<div class="modal"  ng-click="closeModal()">
+    <ion-card>  
+        <div class="cartHeaders font-bold margin-top-10 subheader">Invoice Details:</div>
+        <ion-item  class="item-ionic-card1">
+            <div>
+                <!--                  <div><span class="font-bold">Order invoice </span>{{selectedInvoiceData.tnsOrder_Invoice}}</div> -->
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">Order invoice:  </div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData.tnsOrder_Invoice}}</div>
+                </div>
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">Item number: </div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData['tnsItem_Number']}}</div>
+                </div>
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">Item name: </div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData['tnsItem_Name']}}</div>
+                </div>
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">Date ordered: </div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData['tnsDate_Ordered']}}</div>
+                </div>
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">Order invoice:</div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData['tnsDate_scheduled']}}</div>
+                </div>
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">Quantity:</div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData['tnsTransaction_Qty']}}</div>
+                </div>
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">Order type:</div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData['tnsOrderType']}}</div>
+                </div>
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">Unit of mes:</div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData['tnsUnit_Of_Mes']}}  </div>
+                </div>
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">Price per unit:</div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData['tnsPrice_Per_Unit']}}   </div>
+                </div>
+                <div class="row line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">List Price:</div>
+                    <div class="col-md-6 col-80  text-left">{{selectedInvoiceData['tnsList_Price']}}  </div>
+                </div>
+            </div>
+        </ion-item> 
+    </ion-card>  
+    <div class="padding">
+        <button type="button"  ng-click="closeModal()" class="border-radius-5 button button-block  round outline canel-button">Cancel</button>
+    </div>
+</div>

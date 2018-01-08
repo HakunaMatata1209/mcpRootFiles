@@ -1,9 +1,31 @@
-<ion-view view-title="Account">
-  <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
-  </ion-content>
+<ion-view  >
+    <ion-nav-buttons side="left">
+        <h5 class="headerText">Eta</h5>
+    </ion-nav-buttons>        
+    <ion-nav-buttons side="right">
+
+        <span ><h5 class="headerText1"> Customer:{{customerId}}</h5><span></span>
+            <button ng-click="cartLogo(cartLength);" class="cart-btn button button-icon icon  icon-right"  > <i class = "icon icon ion-ios-cart logout-class"  ></i> <ion-badge ng-show="cartLength" class="cart-badge"><span class="cart-count">{{cartLength}}</span></ion-badge></button>
+            <button  ng-click="logoutHome();" class="button button-icon icon  icon-right"><i class = "icon icon ion-log-out logout-class"  ></i></button> 
+
+        </span>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="etaHeader">Eta details based on order number</div>
+        <form name="myForm" novalidate>
+            <div class="list">
+                <label class="item item-input border-radius-5"> 
+                    <input type="text"  ng-model="orderInvoice"   name= "orderInvoice" placeholder="Order number" required autocomplete="off">
+                </label>
+
+            </div>
+
+            <div class="padding">
+                <button  style="border-radius: 5px!important;" type="button" class="border-radius-5 button button-block  background-color-yellow round outline  border-radius-5" ng-disabled="myForm.$invalid" ng-click="eta(orderInvoice)">Eta Info</button>
+            </div>
+
+
+        </form>
+
+    </ion-content>
 </ion-view>

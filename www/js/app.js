@@ -1,85 +1,209 @@
-// Ionic Starter App
+var db = null;
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory',  'angularSoap', 'ngCordova', 'ui.rCalendar', 'pdf', 'base64', 'utf8-base64', 'ngTable'])
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+        .run(function ($ionicPlatform, $state, $rootScope, $location, $http, $cordovaSQLite) {
+            $rootScope.$on('$stateChangeStart', function () {
+                var countSql = "SELECT count(*) AS cnt FROM cart";
+                $cordovaSQLite.execute(db, countSql, []).then(function (res) {
+                    $rootScope.cartLength = res.rows.item(0).cnt;
+                });
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+            })
+            $http.defaults.headers.put['Content-Type'] = 'application/json';
 
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
-})
+            $ionicPlatform.registerBackButtonAction(function (event) {
+                if ($state.current.name == "tab.home") {
+                    navigator.app.exitApp();
+                } else {
+                    navigator.app.backHistory();
+                }
+            }, 100);
+            $ionicPlatform.ready(function () {
+                if (window.cordova) {
+                    db = $cordovaSQLite.openDB({name: "app.db", bgType: 1, location: 1});
+                } else {
+                    db = window.sqlitePlugin.openDatabase("app.db", '1', 'ES Database', 5 * 1024 * 1024);
+                }
 
-.config(function($stateProvider, $urlRouterProvider) {
+                $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS cart (id integer primary key autoincrement, tnsBU text,tnsCustID text,tnsCust_Name text,tnsItem_Desc text,tnsItem_Id text,tnsItem_Name text,tnsItem_Type text,tnsTank text,tnsTanksize text,tnsUOM text,tnsQuantity text,tnsStore text, Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)").then(
+                        function (success) {
+                            console.log("created the databse qq app config");
+                        },
+                        function (error) {
+                            console.log(' error in open database', 'creating/opening the database', error);
+                        }
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
-  $stateProvider
+                );
 
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: '/tab',
-    abstract: true,
-    templateUrl: 'templates/tabs.html'
-  })
+                var countSql = "SELECT count(*) AS cnt FROM cart";
+                $cordovaSQLite.execute(db, countSql, []).then(function (res) {
+                    $rootScope.cartLength = res.rows.item(0).cnt;
+                    console.log("the cart from congif length" + res.rows.item(0).cnt);
+                });
 
-  // Each tab has its own nav history stack:
+                var then = window.localStorage.getItem("AssignedDate");
+                var now = new Date();
+                var a = moment(then);
+                var b = moment(now);
 
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
+                var years = a.diff(b, 'years');
+                var months = a.diff(b, 'months') % 12;
+                var days = a.diff(b, 'days');
+                var hours = a.diff(b, 'hours');
+                var min = a.diff(b, 'minutes');
+// alert(" from config the difference years" + years + 'months' + months + 'days' + days+'hours'+hours+'min'+min);
+//            alert("then and now"+then+now);
 
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
+                if (hours > 3) {
+                    var emptyDb = "DELETE FROM cart";
+                    $cordovaSQLite.execute(db, emptyDb, []).then(function (res) {
+                        console.log("the detele response" + JSON.stringify(res));
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  });
+                    });
+                }
+                if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                    cordova.plugins.Keyboard.disableScroll(true);
 
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+                }
+                if (window.StatusBar) {
+// org.apache.cordova.statusbar required
+                    StatusBar.styleDefault();
+                }
+            });
+        })
 
-});
+        .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider) {
+            $ionicConfigProvider.tabs.position('bottom');
+
+            $stateProvider
+                    .state('loader', {
+                        cache: false,
+                        url: '/loader',
+                        templateUrl: 'templates/loader.html',
+                        controller: 'LoaderInCtrl'
+                    })
+                    .state('signin', {
+                        cache: false,
+                        url: '/sign-in',
+                        templateUrl: 'templates/sign-in.html',
+                        controller: 'SignInCtrl'
+                    })
+                    .state('signup', {
+                        url: '/sign-up',
+                        templateUrl: 'templates/sign-up.html',
+                        controller: 'SignUpCtrl'
+                    })
+                    .state('forgotpassword', {
+                        url: '/forgot-password',
+                        templateUrl: 'templates/forgot-password.html',
+                        controller: 'passwordCtrl'
+                    })
+                    .state('logout', {
+                        url: '/logout',
+                        templateUrl: 'templates/logout.html',
+                        controller: 'logoutCtrl'
+                    })
+// setup an abstract state for the tabs directive
+                    .state('tab', {
+                        url: '/tab',
+                        abstract: true,
+                        templateUrl: 'templates/tabs.html',
+                        controller: 'tabsCtrl'
+                    })
+
+                    .state('tab.home', {
+                        url: '/home',
+                        views: {
+                            'tab-home': {
+                                templateUrl: 'templates/tab-home.html',
+                                controller: 'HomeCtrl'
+                            }
+                        }
+                    })
+
+                    .state('tab.orders', {
+                        url: '/orders',
+                        views: {
+                            'tab-orders': {
+                                templateUrl: 'templates/tab-orders.html',
+                                controller: 'OrdersCtrl'
+                            }
+                        }
+                    })
+                    .state('tab.chat-detail', {
+                        url: '/orders/:chatId',
+                        views: {
+                            'tab-orders': {
+                                templateUrl: 'templates/chat-detail.html',
+                                controller: 'ChatDetailCtrl'
+                            }
+                        }
+                    })
+                    .state('tab.invoices', {
+                        url: '/invoices',
+                        views: {
+                            'tab-invoices': {
+                                templateUrl: 'templates/tab-invoices.html',
+                                controller: 'InvoicesCtrl'
+                            }
+                        }
+                    })
+                    .state('tab.sds', {
+                        url: '/sds',
+                        views: {
+                            'tab-sds': {
+                                templateUrl: 'templates/tab-sds.html',
+                                controller: 'SdsCtrl'
+                            }
+                        }
+                    })
+                    .state('tab.contact', {
+                        url: '/contact',
+                        views: {
+                            'tab-contact': {
+                                templateUrl: 'templates/tab-contact.html',
+                                controller: 'ContactCtrl'
+                            }
+                        }
+                    })
+                    .state('tab.logout', {
+                        url: '/logout',
+                        views: {
+                            'tab-logout': {
+                                templateUrl: 'templates/tab-logout.html',
+                                controller: 'logoutCtrl'
+                            }
+                        }
+                    })
+                    .state('products', {
+                        url: '/products',
+                        templateUrl: 'templates/products.html',
+                        controller: 'ProductsCtrl'
+
+                    })
+                    .state('cart', {
+                        url: '/cart',
+                        templateUrl: 'templates/cart.html',
+                        controller: 'cartCtrl'
+
+                    })
+                    .state('invoice', {
+                        url: '/invoice',
+                        templateUrl: 'templates/invoice.html',
+                        controller: 'invoiceCtrl'
+
+                    })
+                    .state('tab.eta', {
+                        url: '/eta',
+                        views: {
+                            'tab-eta': {
+                                templateUrl: 'templates/tab-eta.html',
+                                controller: 'EtaCtrl'
+                            }
+                        }
+                    });
+
+            $urlRouterProvider.otherwise('/loader');
+
+        });

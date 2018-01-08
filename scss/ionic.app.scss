@@ -14,7 +14,29 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #3f3f3f !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
 
+/*.tabs-md .tab-button {
+  color: white !important;
+ }
+
+ //selected color
+ .tabs-md .tab-button[aria-selected=true] {
+   color: #fce515 !important;
+ }
+
+.tab-button {
+    color: white !important;
+    background-color: #000000;
+}*/
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
