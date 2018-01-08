@@ -11,10 +11,8 @@
         </span>
     </ion-nav-buttons> 
     <ion-content class="has-header"  overflow-scroll="true">  
-
         <div>
             <div ng-show="cartLength" class=" font-bold subheader" >Your Cart Products:</div>
-
             <div ng-show="!cartLength" class="text-align-center font-bold subheader">Cart is empty ! Continue shopping.</div>
                 <div class="list card pb0 mcp-background-grey" ng-repeat="checkout in cartItems_one| filter:search" >
 <!--                     <form name="cartForm" novalidate ng-keyup="SaveAndNext(cartForm)">-->
@@ -59,11 +57,8 @@
                         <button   ng-click="removeFromCart($index, checkout.tnsItem_Id)" class="button button-positive button-clear button-block  icon background-color-yellow ion-android-delete ionic-icon-size"  ></button><ion-icon ios="ios-trash" md="md-trash"></ion-icon>
                     </div>
                      </form>
-                </div> 
-
-           
+                </div>            
         </div> 
-
         <div ng-show="cartLength">
             <div class="instrunctions-subheader font-bold" >Delivery Instructions:</div>
             <div class="list">
@@ -76,7 +71,6 @@
             </div>  
         </div>  
     </ion-content>
-
     <div  class="bottom-align">
         <div class="button-bar checkout-bar " padding="'true'"  >
             <button     ng-click="continueShopping()" class=" buttom-aligned-button button  round background-color-black"  ng-click="movetocart()">Continue Shopping</button>
