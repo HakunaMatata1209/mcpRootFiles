@@ -1,4 +1,4 @@
-<ion-view  >  
+<ion-view >  
     <ion-nav-buttons side="left">
         <h5 class="headerText">Invoices</h5>
     </ion-nav-buttons>        
@@ -18,8 +18,11 @@
         </button>
     </ion-header-bar>
     <ion-content>
-          <div class="cartHeadersHome font-bold subheader">Invoices:</div>       
-           <ion-item  ng-repeat="invoiceData in invoices| filter:search" class="item-ionic-card margin-bottom-5 border-radius-5 home-item">      
+         
+          <div class="cartHeadersHome font-bold subheader">Invoices:</div>  
+          
+            <div ng-show="shownullmessageInvoices " class="font-bold subheader margin-top-10" >No invoice details to show</div> 
+           <ion-item  ng-show="invoicesData" ng-repeat="invoiceData in invoices| filter:search" class="item-ionic-card margin-bottom-5 border-radius-5 home-item">      
               <div class="padding">
                     <div ng-show="!invoices.length" class="font-bold">No invoice details to show</div> 
                     <div class="row"  >

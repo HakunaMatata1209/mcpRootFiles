@@ -3,53 +3,46 @@
         <h5 class="headerText">Orders</h5>
     </ion-nav-buttons>        
     <ion-nav-buttons side="right">
-              <span ><h5 class="headerText1"> Customer:{{customerId}}</h5><span></span>
+        <span ><h5 class="headerText1"> Customer:{{customerId}}</h5><span></span>
             <button ng-click="cartLogo(cartLength);" class="cart-btn button button-icon icon  icon-right"  > <i class = "icon icon ion-ios-cart logout-class"  ></i> <ion-badge ng-show="cartLength" class="cart-badge"><span class="cart-count">{{cartLength}}</span></ion-badge></button>
             <button  ng-click="logoutHome();" class="button button-icon icon  icon-right"><i class = "icon icon ion-log-out logout-class"  ></i></button> 
-
         </span>
- 
- 
     </ion-nav-buttons>
-      <ion-header-bar class="bar-subheader item-input-inset" name="cm-search-bar">
-	<label class="item-input-wrapper border-radius-5">
-	   <i class="icon ion-search placeholder-icon"></i>
-		<input type="search" placeholder="search" ng-model="search" ng-change="updateSearchString()" />
-	</label>
-	<button class="button button-clear" ng-if="search" ng-click="clearSearchString()">
-		<i class="icon ion-close-circled"></i>
-	</button>
-</ion-header-bar>
-    <ion-content class="padding"  >
- 
-        <div class="row header tableHeader text-center" >
-            <div class="col col-25" ng-click="sortBy('tnsDate_Ordered')">Date 
-                   <span class="sortorder" ng-show="propertyName === 'tnsDate_Ordered'" ng-class="{reverse: reverse}"> </span>
-         
+    <ion-header-bar class="bar-subheader item-input-inset" name="cm-search-bar">
+        <label class="item-input-wrapper border-radius-5">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" placeholder="search" ng-model="search" ng-change="updateSearchString()" />
+        </label>
+        <button class="button button-clear" ng-if="search" ng-click="clearSearchString()">
+            <i class="icon ion-close-circled"></i>
+        </button>
+    </ion-header-bar>
+    <ion-content  >
+        <div class=" font-bold subheader">Orders:</div> 
+        <div ng-show="shownullmessage" class="subheader font-bold">No orders to show</div>
+        <div  class="padding-5">
+            <div class="row header tableHeader text-center " ng-show="showHeader">
+                <div class="col col-25" ng-click="sortBy('tnsDate_Ordered',orderbyelement)">Date 
+                 <!--<span class="sortorder" ng-show="propertyName === 'tnsDate_Ordered'" ng-class="{reverse: reverse}"> </span>--> 
+                </div>
+                <div class="col col-25" >Number</div> 
+                <div class="col col-30" >Quantity</div>
+                <div class="col col-5"> Options</div>
             </div>
-            <div class="col col-25" >Number
  
-            </div>
- 
-            <div class="col col-30" >Quantity
- 
-            </div>
-            <div class="col col-5"> Options</div>
-        </div>
-        <div  class="row row header   text-center" ng-repeat="order in orders|orderBy:propertyName:reverse|filter:search" ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{'selected':$index == selectedRow}">
-           <div ng-show="!orders.length">No orders to show</div>
-            
-            <div class=" col-30 mt5" >{{order.tnsDate_Ordered}}</div>
-            <div class="col col-25">{{order.tnsOrder_Invoice}}</div>
- 
-            <div class="col col-30">{{order.tnsTransaction_Qty}}</div>
-            <div class="col col-5">    
-                <div   ng-click="showActionsheet($index,order)">
-                    <i class = "icon icon ion-more view-more-icon" ></i>
-                 
-                </div></div>
-        </div>
+            <div    ng-show="showHeader" class="padding5555 row row header   text-center" ng-repeat="order in orders |filter:search | orderBy:'-'" ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{'selected':$index == selectedRow}">
+                <div ng-show="!orders.length">No orders to show</div>
+                <div class=" col-30 mt5" >{{order.tnsDate_Ordered}}</div>
+                <div class="col col-25">{{order.tnsOrder_Invoice}}</div>
+                <div class="col col-30">{{order.tnsTransaction_Qty}}</div>
+                <div class="col col-5">    
+                    <div   ng-click="showActionsheet($index, order)">
+                        <i class = "icon icon ion-more view-more-icon" ></i>
 
-    </ion-content>
+                    </div></div>
+            </div>
  
+        </div>
+    </ion-content>
+
 </ion-view>
