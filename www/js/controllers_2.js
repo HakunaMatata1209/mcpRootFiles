@@ -372,24 +372,24 @@ angular.module('starter.controllers', [])
 
             };
             $scope.propertyName = 'tnsDate_Ordered';
-            $scope.reverse = false;
-            $rootScope.orderbyelement = "-";
-            $scope.sortBy = function (propertyName, orderbyelement) {
-                //  alert("the order element"+orderbyelement);
-                //  alert($scope.reverse);
-                if (orderbyelement === '-') {
-                    //   alert("the value is true");
-                    $rootScope.orderbyelement = "+";
-                }
-
-                if (orderbyelement === '+') {
-                    //   alert("the value is true");
-                    $rootScope.orderbyelement = "+";
-                }
-
-
-
-                $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : true;
+            $scope.reverse = false; 
+            $rootScope.orderbyelement ="-";
+            $scope.sortBy = function (propertyName,orderbyelement) {
+             //  alert("the order element"+orderbyelement);
+              //  alert($scope.reverse);
+                if(orderbyelement === '-'){
+                 //   alert("the value is true");
+                       $rootScope.orderbyelement="+";
+                } 
+                
+                   if(orderbyelement === '+'){
+                 //   alert("the value is true");
+                       $rootScope.orderbyelement="+";
+                } 
+                 
+              
+               
+               $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : true;
                 $scope.propertyName = propertyName;
             };
 
@@ -523,11 +523,21 @@ angular.module('starter.controllers', [])
         })
 
         .controller('cartCtrl', function ($scope, $ionicPopup, $state, $rootScope, $cordovaSQLite, $cordovaDialogs, $location, $cordovaToast, services, $ionicLoading) { // define $ionicPopup here
- 
+            $rootScope.cartDisableButton = false;
+             
+            $scope.submitForm = function (form) {
+                if (form.$valid) {
+                    // alert("valid");
+                    $rootScope.cartDisableButton = false;
+                } else {
+                    //   alert("not valid");
+                    $rootScope.cartDisableButton = true;
+                }
+            };
             $scope.$on('$ionicView.enter', function () {
-                $scope.orderInstruction = "";
-                $scope.orderInstructionPo = "";
-                $scope.orderInstructionEmail = "";
+                $scope.orderInstruction="";
+                $scope.orderInstructionPo="";
+                $scope.orderInstructionEmail="";
                 var then = window.localStorage.getItem("AssignedDate");
                 var now = new Date();
                 var a = moment(then);
@@ -614,13 +624,6 @@ angular.module('starter.controllers', [])
                     }, function (err) {
                         console.log("error in updating in error if " + JSON.stringify(err));
                     });
-                } else {
-                    var queryupdate = "UPDATE cart SET tnsQuantity = ? WHERE tnsItem_Id = ?";
-                    $cordovaSQLite.execute(db, queryupdate, ["1", tnsItem_Id]).then(function (res) {
-                        console.log("updated successfully if: " + res.insertId);
-                    }, function (err) {
-                        console.log("error in updating in error if " + JSON.stringify(err));
-                    });
                 }
 
 
@@ -678,113 +681,92 @@ angular.module('starter.controllers', [])
                     templateUrl: "templates/loading.html",
                     noBackdrop: false
                 });
-
-                var countRecords = "SELECT count(*) AS cnt FROM cart WHERE tnsQuantity = ?";
-                $cordovaSQLite.execute(db, countRecords, ["1"]).then(function (res) {
-                    // alert("the count records" + res.rows.item(0).cnt);
-
-                    if (res.rows.item(0).cnt == "0") {
-                        //  alert("we have zero empty records");
-                         $ionicLoading.show({
-                    templateUrl: "templates/loading.html",
-                    noBackdrop: false
-                });
-
-                        var cartObject = [];
-                        $cordovaDialogs.confirm('Confirm Checkout', 'Checkout', ['OK', 'Cancel'])
-                                .then(function (buttonIndex) {
-                                    var btnIndex = buttonIndex;
-                                    if (btnIndex == "1") {
-                                        if ($rootScope.cartItems_one.length) {
-
-                                            angular.forEach($rootScope.cartItems_one, function (value, key) {
-                                                console.log("key  and value" + value.tnsQuantity + 'for' + value.tnsItem_Id);
-                                                if (value.tnsQuantity === null) {
-                                                    $scope.cartError = true;
-                                                    $scope.cartErrorData = "Quanity is empty for " + value.tnsItem_Id;
-                                                    $scope.cartErrorDisable = true;
-                                                } else {
-                                                    $scope.cartError = false;
-                                                    $scope.cartErrorDisable = false;
-                                                    var objectIndex = key + 1 + '.000';
-                                                    cartObject.push({
-                                                        COrderIdentifier: "V",
-                                                        jdeOrderline: objectIndex,
-                                                        item_Desc: value.tnsItem_Desc,
-                                                        Item_Id: value.tnsItem_Id,
-                                                        businessUnit: value.tnsBU,
-                                                        jdeCompany: "00010",
-                                                        jdeShipTo: value.tnsCustID,
-                                                        jdeOrderType: "SO",
-                                                        netGallonsOrdered: value.tnsQuantity,
-                                                        productCode: value.tnsItem_Name,
-                                                        szReqDeliDtStartString: $rootScope.changedDateCart + $rootScope.startTimeCart,
-                                                        szReqDeliDtEndString: $rootScope.changedDateCart + $rootScope.endTimeCart
-                                                    });
-                                                }
-
-                                            });
-
-                                            if (cartObject.length) {
-                                                services.placeCart(cartObject).then(function mySuccess(response) {
-                                                    var x2js = new X2JS();
-                                                    var aftCnv = x2js.xml_str2json(response.data);
-                                                    var orderResponse = aftCnv.Envelope.Body.processResponse.outputVO;
-                                                    // alert("the order response is"+JSON.stringify(orderResponse));
-                                                    //alert("the order invoice number is check next"+JSON.stringify(orderResponse.documentOrderNoInvoiceetc));
-                                                    var checkisArray = (angular.isArray(orderResponse));
-                                                    if (checkisArray == true) {
-                                                        var orderDocumentOrderNoInvoiceetc = orderResponse[0].documentOrderNoInvoiceetc;
-                                                    } else {
-                                                        var orderDocumentOrderNoInvoiceetc = orderResponse.documentOrderNoInvoiceetc;
-                                                    }
-
-                                                    if (orderResponse) {
-                                                        $rootScope.cartLength = "";
-                                                        var emptyDb = "DELETE FROM cart";
-                                                        $cordovaSQLite.execute(db, emptyDb, []).then(function (res) {
-                                                            console.log("the delete" + res);
-                                                        });
-                                                        $ionicLoading.hide();
-                                                        $cordovaDialogs.alert('Order has been placed sucessfully, Your invoice number is ' + orderDocumentOrderNoInvoiceetc, 'Order Status', 'OK');
-                                                        if (infodata) {
-                                                            services.deliveryInstruction(JSON.parse(orderDocumentOrderNoInvoiceetc), infodata.orderInstruction, infodata.orderInstructionEmail).then(function mySuccess(response) {
-                                                                console.log("succes in  $scope.delivery instruction" + response);
-                                                            }, function myError(response) {
-                                                                console.log("error in  $scope.delivery instruction");
-                                                            });
-                                                        } else {
-                                                        }
-                                                        $ionicLoading.hide();
-                                                        $state.go('tab.home');
-                                                    } else {
-                                                        $ionicLoading.hide();
-                                                        $cordovaDialogs.alert('Error in placing order , Please try again!', 'Order Status', 'OK');
-                                                        $state.go('tab.home');
-                                                    }
-                                                }, function myError(response) {
-                                                    $ionicLoading.hide();
-                                                    $cordovaDialogs.alert('Error in placing order', 'Order Status', 'OK');
-
-                                                });
-                                            }
-
+                var cartObject = [];
+                $cordovaDialogs.confirm('Confirm Checkout', 'Checkout', ['OK', 'Cancel'])
+                        .then(function (buttonIndex) {
+                            var btnIndex = buttonIndex;
+                            if (btnIndex == "1") {
+                                if ($rootScope.cartItems_one.length) {
+                                    angular.forEach($rootScope.cartItems_one, function (value, key) {
+                                        console.log("key  and value" + value.tnsQuantity + 'for' + value.tnsItem_Id);
+                                        if (value.tnsQuantity === null) {
+                                            $scope.cartError = true;
+                                            $scope.cartErrorData = "Quanity is empty for " + value.tnsItem_Id;
+                                            $scope.cartErrorDisable = true;
                                         } else {
-                                            $ionicLoading.hide();
-
-                                            $cordovaDialogs.alert('cannot checkout ,cart has empty items', 'Order Status', 'OK');
+                                            $scope.cartError = false;
+                                            $scope.cartErrorDisable = false;
+                                            var objectIndex = key + 1 + '.000';
+                                            cartObject.push({
+                                                COrderIdentifier: "V",
+                                                jdeOrderline: objectIndex,
+                                                item_Desc: value.tnsItem_Desc,
+                                                Item_Id: value.tnsItem_Id,
+                                                businessUnit: value.tnsBU,
+                                                jdeCompany: "00010",
+                                                jdeShipTo: value.tnsCustID,
+                                                jdeOrderType: "SO",
+                                                netGallonsOrdered: value.tnsQuantity,
+                                                productCode: value.tnsItem_Name,
+                                                szReqDeliDtStartString: $rootScope.changedDateCart + $rootScope.startTimeCart,
+                                                szReqDeliDtEndString: $rootScope.changedDateCart + $rootScope.endTimeCart
+                                            });
                                         }
-                                    } //button canel case
-// no button = 0, 'OK' = 1, 'Cancel' = 2
-                                    $ionicLoading.hide();
-                                });
-                    } else {
-                        //    alert("we have empty records");
-                          $ionicLoading.hide();
-                        $cordovaDialogs.alert('Please check product Quantity', 'Order Status', 'OK');
-                    }
-                });
 
+                                    });
+
+                                    if (cartObject.length) {
+                                        services.placeCart(cartObject).then(function mySuccess(response) {
+                                            var x2js = new X2JS();
+                                            var aftCnv = x2js.xml_str2json(response.data);
+                                            var orderResponse = aftCnv.Envelope.Body.processResponse.outputVO;
+                                           // alert("the order response is"+JSON.stringify(orderResponse));
+                                               //alert("the order invoice number is check next"+JSON.stringify(orderResponse.documentOrderNoInvoiceetc));
+                                              var checkisArray=(angular.isArray(orderResponse));
+                                              if(checkisArray == true){ 
+                                                   var orderDocumentOrderNoInvoiceetc=orderResponse[0].documentOrderNoInvoiceetc;
+                                              }else{ 
+                                                    var orderDocumentOrderNoInvoiceetc = orderResponse.documentOrderNoInvoiceetc;
+                                              }
+                                              
+                                            if (orderResponse) {
+                                                $rootScope.cartLength = "";
+                                                var emptyDb = "DELETE FROM cart";
+                                                $cordovaSQLite.execute(db, emptyDb, []).then(function (res) {
+                                                    console.log("the delete" + res);
+                                                });
+                                                $ionicLoading.hide();
+                                                $cordovaDialogs.alert('Order has been placed sucessfully, Your invoice number is ' + orderDocumentOrderNoInvoiceetc, 'Order Status', 'OK');
+                                                if (infodata) {
+                                                    services.deliveryInstruction(JSON.parse(orderDocumentOrderNoInvoiceetc), infodata.orderInstruction, infodata.orderInstructionEmail).then(function mySuccess(response) {
+                                                        console.log("succes in  $scope.delivery instruction" + response);
+                                                    }, function myError(response) {
+                                                        console.log("error in  $scope.delivery instruction");
+                                                    });
+                                                } else {
+                                                }
+                                                $ionicLoading.hide();
+                                                $state.go('tab.home');
+                                            } else {
+                                                $ionicLoading.hide();
+                                                $cordovaDialogs.alert('Error in placing order , Please try again!', 'Order Status', 'OK');
+                                                $state.go('tab.home');
+                                            }
+                                        }, function myError(response) {
+                                            $ionicLoading.hide();
+                                            $cordovaDialogs.alert('Error in placing order', 'Order Status', 'OK');
+
+                                        });
+                                    }
+
+                                } else {
+                                    $ionicLoading.hide();
+                                    alert("cannot checkout ,cart has empty items");
+                                }
+                            } //button canel case
+// no button = 0, 'OK' = 1, 'Cancel' = 2
+                            $ionicLoading.hide();
+                        });
 //                    }else{
 //                        alert("Cannot checkout please the the quantity of the product");
 //                        
