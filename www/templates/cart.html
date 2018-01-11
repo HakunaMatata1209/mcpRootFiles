@@ -12,9 +12,14 @@
     </ion-nav-buttons> 
     <ion-content class="has-header"  overflow-scroll="true">   
         <div ng-show="cartLength" class=" font-bold subheader" >Your Cart Products:</div>
-        <div ng-show="!cartLength" class="text-align-center font-bold subheader">Cart is empty ! Continue shopping.</div>
-        <form name="cartForm" novalidate  ng-keyup="submitForm(cartForm)" >
-            <div class="list card pb0 mcp-background-grey" ng-repeat="checkout in cartItems_one| filter:search" >
+        <div ng-show="!cartLength" class="text-align-center font-bold subheader">Cart is empty ! Continue shopping.<br>
+            <div class="button-bar checkout-bar " padding="'true'"  > 
+                <button  ng-click="continueShopping()" class=" buttom-aligned-button button  round background-color-black"  ng-click="movetocart()">Continue Shopping</button>
+                <!--<button  ng-click="checkout(Info)" class="buttom-aligned-button button  round background-color-black"  ng-disabled="cartDisableButton"    >Check Out</button>-->
+                <!--                <button  ng-click="checkout(Info,)" class="buttom-aligned-button button  round background-color-black"   type="submit" id="submit" value="Submit" ng-disabled="((cartQuantityError) || (!cartLength))" >Check Out</button>-->
+            </div></div>
+        <form name="cartForm" novalidate >
+            <div class="list card pb0 mcp-background-grey" ng-repeat="checkout in cartItems_one| filter:search"  >
                 <!--                     <form name="cartForm" novalidate ng-keyup="SaveAndNext(cartForm)">-->
 
                 <div ng-show="!cartItems_one.length" class="font-bold cartHeaders">Items:</div>
@@ -32,29 +37,36 @@
                             <span class="item-count">
                                 <input type="number" 
                                        ng-minlength="1"
-                                       ng-model='checkoutTnsQuantity'  
+                                       ng-model='checkoutTnsQuantity' 
                                        value="{{checkout.tnsQuantity}}"
                                        placeholder="Enter quantity"
                                        ng-keyup="checkoutProductQuantity(checkoutTnsQuantity, checkout.tnsItem_Id, checkout.tnsTanksize, $index)" 
                                        name="checkoutTnsQuantity{{$index}}" 
                                        min="1"
                                        max="{{checkout.tnsTanksize}}"  class="text-align-left input-mini input-background" required  ></span>
+
                             <span class="warning   text-align-center" ng-show="checkout.tnsTanksize != null">Max-Quantity:{{checkout.tnsTanksize}} </span>
-                            <div ng-messages="cartForm['checkoutTnsQuantity' +$index].$error"
+
+
+                            <div ng-model="data" ng-messages="cartForm['checkoutTnsQuantity' +$index].$error"
                                  ng-show="cartForm['checkoutTnsQuantity' + $index].$dirty && cartForm['checkoutTnsQuantity' + $index].$invalid">
+
                                 <span  ng-show="cartForm['checkoutTnsQuantity' + $index].$dirty && cartForm['checkoutTnsQuantity' + $index].$error.required" ng-message="required" class='warning'>Quantity cannot be empty</span>  
                                 <span  ng-show="cartForm['checkoutTnsQuantity' + $index].$dirty && cartForm['checkoutTnsQuantity' + $index].$error.max" ng-message="max" class='warning'>Quantity cannot be greater than {{checkout.tnsTanksize}}</span>  
                             </div>
                         </div>
+                        {{data}}
                     </div>
                 </div>
                 <div class="button-bar text-align-center"  > 
                     <button   ng-click="removeFromCart($index, checkout.tnsItem_Id)" class="button button-positive button-clear button-block  icon background-color-yellow ion-android-delete ionic-icon-size"  ></button><ion-icon ios="ios-trash" md="md-trash"></ion-icon>
                 </div>
-            </div>  
+            </div> 
+
         </form>            
-        <div >
+        <div ng-show="cartLength">
             <div class="instrunctions-subheader font-bold" >Delivery Instructions:</div> 
+            <form name="instructionForm">
             <div class="list">
                 <label class="item item-input">
                     <textarea nextFocus placeholder="Delivery instructions" ng-model="Info.orderInstruction" name="orderInstruction" /> </textarea> 
@@ -63,15 +75,22 @@
                     <textarea nextFocus   placeholder="PO number" ng-model="Info.orderInstructionPo" name="orderInstructionPo"/> </textarea> 
                 </label>
                 <label class="item item-input">
-                    <input nextFocus  type="email"  placeholder="Email" ng-model="Info.orderInstructionEmail" name="orderInstructionEmail" />
+                    <input nextFocus  type="email"  placeholder="Email" ng-model="Info.orderInstructionEmail" name="orderInstructionEmail" required/>
+             
                 </label>
+                                           <span styel="    color: red;
+    padding-left: 10px;
+    margin-top: 21px !important;
+    text-align: center !important;" class="warning   text-align-center" ng-show="instructionForm.orderInstructionEmail.$error.email">Enter valid email address </span>
+                  <!--<span     ng-message="required" class="warning   text-align-left">Enter valid email address</span>-->  
             </div>
+            </form>
 
         </div>   
-        <ion-fixed-content style="height: 100% !important;">  
-            <div class="button-bar checkout-bar " padding="'true'"  > 
+        <ion-fixed-content style="height: 100% !important;" ng-show="cartLength">  
+            <div class="button-bar checkout-bar " padding="'true'"  >  
                 <button  ng-click="continueShopping()" class=" buttom-aligned-button button  round background-color-black"  ng-click="movetocart()">Continue Shopping</button>
-                <button  ng-click="checkout(Info)" class="buttom-aligned-button button  round background-color-black"  ng-disabled="cartDisableButton"    >Check Out</button>
+                <button  ng-click="checkout(Info)" class="buttom-aligned-button button  round background-color-black"  ng-disabled="!cartLength"    >Check Out</button>
                 <!--                <button  ng-click="checkout(Info,)" class="buttom-aligned-button button  round background-color-black"   type="submit" id="submit" value="Submit" ng-disabled="((cartQuantityError) || (!cartLength))" >Check Out</button>-->
             </div>  
         </ion-fixed-content>
