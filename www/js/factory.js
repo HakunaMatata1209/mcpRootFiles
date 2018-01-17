@@ -104,9 +104,21 @@ angular.module('starter.factory', [])
                         return $soap.post(etaDetailsURL, "process", {JDE_Number_Input: eta});
                     },
 
-                    placeCart: function (rootCartObject) {
+                    placeCart: function (rootCartObject,info) {
                         //  var options = {responseType: 'text'};
-
+                    //    alert("the info is"+JSON.stringify(info));
+                     //   alert(info.orderInstruction+info.orderInstructionEmail+info.orderInstructionPo);
+                    //   alert("in place cart"+JSON.stringify(rootCartObject));
+                    //   var Email=info.orderInstructionEmail;
+                   //    var PoNumber=info.orderInstructionPo;
+                        var regexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;  
+                        window.localStorage.setItem("OrderPoNumber", info.orderInstructionPo);
+                        var valid = regexp.test(info.orderInstructionEmail);
+                        if (valid == true) { 
+                            window.localStorage.setItem("OrderEmail", info.orderInstructionEmail);
+                        } else {
+                            window.localStorage.setItem("OrderEmail", " ");
+                        }
                         /*  var soap = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">' +
                          '<Body>' +
                          '<VMISOCollection xmlns="http://xmlns.oracle.com/MCP_MOBILE/CSSMobileSOCreation/SOCreationBPELProcess">' +
@@ -151,7 +163,7 @@ angular.module('starter.factory', [])
                             // xmlString += '<Item_name>' + rootCartObject[i] + '</Item_name>';
                             xmlString += '<businessUnit>' + rootCartObject[i].businessUnit + '</businessUnit>';
                             xmlString += '<jdeCompany>' + rootCartObject[i].jdeCompany + '</jdeCompany>';
-                            // xmlString += '<customerTank>' + rootCartObject[i] + '</customerTank>';
+                            xmlString += '<customerTank>' + rootCartObject[i].customerTank + '</customerTank>';
                             //  xmlString += '<jdeAddressNo>' + rootCartObject[i] + '</jdeAddressNo>';
                             xmlString += '<jdeShipTo>' + rootCartObject[i].jdeShipTo + '</jdeShipTo>';
                             xmlString += '<jdeOrderType>' + rootCartObject[i].jdeOrderType + '</jdeOrderType>';
@@ -159,9 +171,11 @@ angular.module('starter.factory', [])
                             xmlString += '<productCode>' + rootCartObject[i].productCode + '</productCode>';
                             xmlString += '<szReqDeliDtStartString>' + rootCartObject[i].szReqDeliDtStartString + '</szReqDeliDtStartString>';
                             xmlString += '<szReqDeliDtEndString>' + rootCartObject[i].szReqDeliDtEndString + '</szReqDeliDtEndString>';
-                            // xmlString += '<carrier>' + rootCartObject[i] + '</carrier>';
+                            xmlString += '<carrier>Mobile</carrier>';
+                            xmlString += '<poNumber>'+window.localStorage.getItem("OrderPoNumber")+'</poNumber>';
+                            xmlString += '<Email>'+window.localStorage.getItem("OrderEmail")+'</Email>';
                             // xmlString += '<image>' + rootCartObject[i] + '</image>';
-                            // xmlString += '<poNumber>' + rootCartObject[i] + '</poNumber>';
+                            // xmlString += '<poNumber>' + rootCartObject[i] + '</poNumber>'; 
                             xmlString += '</VMISO>';
                         }
 

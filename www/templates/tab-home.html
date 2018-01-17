@@ -22,14 +22,15 @@
        <ion-item  class="item-ionic-card margin-bottom-5 border-radius-5 home-item" ng-repeat="store in storeResponse| filter:search"  >
   <div ng-show="!storeResponse.length" class="font-bold">No stores to show</div>
             <div class="padding">
+                <div class="row  line-height"  >
+                    <div class="col-md-6 col-40  text-left font-bold">ShipTo: </div>
+                    <div class="col-md-6 col-80  text-left">{{store.tnsAddressNumber| uppercase}}</div>
+                </div> 
                 <div class="row line-height"  >
                     <div class="col-md-6 col-40  text-left font-bold">Address: </div>
                     <div class="col-md-6 col-80  text-left">{{store.tnsAddressLine1| uppercase}}-{{store.AddressName| uppercase}}</div>
                 </div>
-                <div class="row  line-height"  >
-                    <div class="col-md-6 col-40  text-left font-bold">Number: </div>
-                    <div class="col-md-6 col-80  text-left">{{store.tnsAddressNumber| uppercase}}</div>
-                </div> 
+                
                 <div class="row  line-height"   >
                     <div class="col-md-6 col-40  text-left font-bold">City: </div>
                     <div class="col-md-6 col-80  text-left">{{store.tnsCity| uppercase}}--{{store.tnsPostal_Code|uppercase}}</div>
