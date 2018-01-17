@@ -66,33 +66,55 @@
         </form>            
         <div ng-show="cartLength">
             <div class="instrunctions-subheader font-bold" >Delivery Instructions:</div> 
-            <form name="instructionForm">
+            <form name="instructionForm"  novalidate >
             <div class="list">
                 <label class="item item-input">
-                    <textarea nextFocus placeholder="Delivery instructions" ng-model="Info.orderInstruction" name="orderInstruction" /> </textarea> 
+                    <textarea   placeholder="Delivery instructions" ng-model="info.orderInstruction"  name="orderInstruction" /> </textarea> 
                 </label>
                 <label class="item item-input">
-                    <textarea nextFocus   placeholder="PO number" ng-model="Info.orderInstructionPo" name="orderInstructionPo"/> </textarea> 
+                    <textarea     placeholder="PO number" ng-model="info.orderInstructionPo"  name="orderInstructionPo"  /> </textarea> 
                 </label>
                 <label class="item item-input">
-                    <input nextFocus  type="email"  placeholder="Email" ng-model="Info.orderInstructionEmail" name="orderInstructionEmail" required/>
+                    <input    type="email"  placeholder="Email" ng-model="info.orderInstructionEmail"   name="orderInstructionEmail" required/>
              
                 </label>
-                                           <span styel="    color: red;
+                                           <span style="    color: red !important;
     padding-left: 10px;
     margin-top: 21px !important;
-    text-align: center !important;" class="warning   text-align-center" ng-show="instructionForm.orderInstructionEmail.$error.email">Enter valid email address </span>
+    text-align: center !important;" class="warning   text-align-center text-align-center" ng-show="instructionForm.orderInstructionEmail.$error.email">Enter valid email address </span>
                   <!--<span     ng-message="required" class="warning   text-align-left">Enter valid email address</span>-->  
             </div>
             </form>
 
         </div>   
-        <ion-fixed-content style="height: 100% !important;" ng-show="cartLength">  
+        <div></div>
+        <br>
+         <!--<br>-->
+<!--          <br>-->
+<!--        <ion-fixed-content style="height: 100% !important;" ng-show="cartLength">  
             <div class="button-bar checkout-bar " padding="'true'"  >  
                 <button  ng-click="continueShopping()" class=" buttom-aligned-button button  round background-color-black"  ng-click="movetocart()">Continue Shopping</button>
-                <button  ng-click="checkout(Info)" class="buttom-aligned-button button  round background-color-black"  ng-disabled="!cartLength"    >Check Out</button>
-                <!--                <button  ng-click="checkout(Info,)" class="buttom-aligned-button button  round background-color-black"   type="submit" id="submit" value="Submit" ng-disabled="((cartQuantityError) || (!cartLength))" >Check Out</button>-->
+                <button  ng-click="checkout(info)" class="buttom-aligned-button button  round background-color-black"  ng-disabled="!cartLength"    >Check Out</button>
+                                <button  ng-click="checkout(Info,)" class="buttom-aligned-button button  round background-color-black"   type="submit" id="submit" value="Submit" ng-disabled="((cartQuantityError) || (!cartLength))" >Check Out</button>
             </div>  
-        </ion-fixed-content>
+        </ion-fixed-content>-->
+    
+ 
     </ion-content>   
+    
+ 
+
+<ion-footer-bar align-title="center" class="bar-light" style="height: 14% !important; 
+    background: transparent !important;margin-bottom: -15px;" ng-show="cartLength" >
+     <div class="buttons button-bar checkout-bar" padding="'true'"  >  
+                <button  ng-click="continueShopping()"  style="font-size: 15px !important;font-weight: bold !important;" class=" font-bold  buttom-aligned-button button  round background-color-black "  ng-click="movetocart()">Continue Shopping</button>
+                <button  ng-click="checkout(info)" style="font-size: 15px !important;font-weight: bold !important;" class=" font-bold  buttom-aligned-button   button  round background-color-black"  ng-disabled="!cartLength"    >Check Out</button>
+                <!--                <button  ng-click="checkout(Info,)" class="buttom-aligned-button button  round background-color-black"   type="submit" id="submit" value="Submit" ng-disabled="((cartQuantityError) || (!cartLength))" >Check Out</button>-->
+            </div> 
+<!--  <div class="title buttons row">
+    <button class="button col" ng-click="hide(product)">Hide</button>
+    <button class="button col" ng-click="share(product)">Share</button>
+    <button class="button col" ng-click="save(product)">Save</button>
+  </div>-->
+</ion-footer-bar>
 </ion-view>

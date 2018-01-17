@@ -1,6 +1,6 @@
 <ion-view  >
     <ion-nav-buttons side="left">
-        <h5 class="headerText">Eta</h5>
+        <h5 class="headerText">ETA</h5>
     </ion-nav-buttons>        
     <ion-nav-buttons side="right">
 
@@ -11,17 +11,17 @@
         </span>
     </ion-nav-buttons>
     <ion-content>
-        <div class="etaHeader">Eta details based on order number</div>
+        <div class="etaHeader">Enter Order Number to retrieve ETA</div>
         <form name="myForm" novalidate>
             <div class="list">
                 <label class="item item-input border-radius-5"> 
-                    <input type="text"  ng-model="orderInvoice"   name= "orderInvoice" placeholder="Order number" required autocomplete="off">
+                    <input type="text"  ng-model="orderInvoice"   name= "orderInvoice" placeholder="Order Number" required autocomplete="off">
                 </label>
 
             </div>
 
             <div class="padding">
-                <button  style="border-radius: 5px!important;" type="button" class="border-radius-5 button button-block  background-color-yellow round outline  border-radius-5" ng-disabled="myForm.$invalid" ng-click="eta(orderInvoice)">Eta Info</button>
+                <button  style="border-radius: 5px!important;" type="button" class="border-radius-5 button button-block  background-color-yellow round outline  border-radius-5" ng-disabled="myForm.$invalid" ng-click="eta(orderInvoice)">ETA Info</button>
             </div>
 
 

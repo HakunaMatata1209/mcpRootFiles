@@ -152,7 +152,6 @@ angular.module('starter.controllers', [])
                 });
 
                 services.addressDetails(window.localStorage.getItem("email")).then(function mySuccess(response) {
-
                     $scope.stores = response["tns:AddressNumberOutput"];
                     var i;
                     if ($scope.stores.length) {
@@ -414,13 +413,13 @@ angular.module('starter.controllers', [])
                     buttons: [
 
                         {
-                            text: '<i class="icon ion-clock"></i> Eta'
+                            text: '<i class="icon ion-clock"></i> ETA'
                         },
                         {
                             text: '<i class="icon ion-folder"></i> Pod'
                         },
                         {
-                            text: '<i class="icon ion-eye"></i> View details'
+                            text: '<i class="icon ion-eye"></i> View Details'
                         }
                     ],
                     destructiveText: 'Cancel',
@@ -433,12 +432,12 @@ angular.module('starter.controllers', [])
                                 var aftCnv = x2js.xml_str2json(response.Messageresult);
                                 var etapackage = aftCnv.Data;
                                 if (etapackage.Package) {
-                                    $cordovaDialogs.alert('Eta Not Planned', 'Eta Details', 'OK');
+                                    $cordovaDialogs.alert('ETA Not Planned', 'ETA Details', 'OK');
 //          .then(function() {
 //          // callback success
 //              });
                                 } else {
-                                    $cordovaDialogs.alert('Eta Not Planned', 'Eta Details', 'OK');
+                                    $cordovaDialogs.alert('ETA Not Planned', 'ETA Details', 'OK');
                                 }
                             }, function myError(response) {
                                 console.log("error in  $scope.eta");
@@ -523,22 +522,39 @@ angular.module('starter.controllers', [])
         })
 
         .controller('cartCtrl', function ($scope, $ionicPopup, $state, $rootScope, $cordovaSQLite, $cordovaDialogs, $location, $cordovaToast, services, $ionicLoading) { // define $ionicPopup here
- 
+//            alert("remove instructions");
+//            alert(window.localStorage.getItem("removeInstrctions"));
+//            $rootScope.orderInstruction = "load value";
+//              $rootScope.orderInstruction = "load value";
+//                 $rootScope.orderInstructionPo ="load value";
+//                  $rootScope.orderInstructionEmail = "load value";
+//         
+//            $scope.orderInstructionEmail = "";
+//            if (window.localStorage.getItem("removeInstrctions") === "true") {
+//                 $rootScope.orderInstruction = "";
+//                 $rootScope.orderInstructionPo = "";
+//                  $rootScope.orderInstructionEmail = "";
+//
+//
+//            }
+          //  alert("making values null");
+
+            $scope.info = {
+                orderInstruction: "",
+                orderInstructionPo: "",
+                orderInstructionEmail: ""
+            };
+
             $scope.$on('$ionicView.enter', function () {
-                $scope.orderInstruction = "";
-                $scope.orderInstructionPo = "";
-                $scope.orderInstructionEmail = "";
                 var then = window.localStorage.getItem("AssignedDate");
                 var now = new Date();
                 var a = moment(then);
                 var b = moment(now);
-
                 var years = a.diff(b, 'years');
                 var months = a.diff(b, 'months') % 12;
                 var days = a.diff(b, 'days');
                 var hours = a.diff(b, 'hours');
                 var min = a.diff(b, 'minutes');
-
                 console.log(" from controller the difference years" + years + 'months' + months + 'days' + days + 'hours' + hours + 'min' + min);
 
 
@@ -589,7 +605,6 @@ angular.module('starter.controllers', [])
                                     var emptyDb = "DELETE FROM cart";
                                     $cordovaSQLite.execute(db, emptyDb, []).then(function (res) {
                                         console.log("the detele response" + JSON.stringify(res));
-
                                     });
 
                                     $location.path('/products');
@@ -616,7 +631,7 @@ angular.module('starter.controllers', [])
                     });
                 } else {
                     var queryupdate = "UPDATE cart SET tnsQuantity = ? WHERE tnsItem_Id = ?";
-                    $cordovaSQLite.execute(db, queryupdate, ["1", tnsItem_Id]).then(function (res) {
+                    $cordovaSQLite.execute(db, queryupdate, ["0", tnsItem_Id]).then(function (res) {
                         console.log("updated successfully if: " + res.insertId);
                     }, function (err) {
                         console.log("error in updating in error if " + JSON.stringify(err));
@@ -671,7 +686,12 @@ angular.module('starter.controllers', [])
                 $location.path('/sign-in');
             };
 
-            $scope.checkout = function (infodata) {
+            $scope.checkout = function (info) { 
+              //alert(instructionForm.$valid);
+                //  $scope.master = {};
+                //  // alert("instructionForm"+JSON.stringify(instructionForm));
+                //  $scope.instructionForm={};
+
                 $scope.cartError = false;
                 $scope.cartErrorDisable = false;
                 $ionicLoading.show({
@@ -680,25 +700,26 @@ angular.module('starter.controllers', [])
                 });
 
                 var countRecords = "SELECT count(*) AS cnt FROM cart WHERE tnsQuantity = ?";
-                $cordovaSQLite.execute(db, countRecords, ["1"]).then(function (res) {
+                $cordovaSQLite.execute(db, countRecords, ["0"]).then(function (res) {
                     // alert("the count records" + res.rows.item(0).cnt);
 
                     if (res.rows.item(0).cnt == "0") {
                         //  alert("we have zero empty records");
-                         $ionicLoading.show({
-                    templateUrl: "templates/loading.html",
-                    noBackdrop: false
-                });
+                        $ionicLoading.show({
+                            templateUrl: "templates/loading.html",
+                            noBackdrop: false
+                        });
 
                         var cartObject = [];
                         $cordovaDialogs.confirm('Confirm Checkout', 'Checkout', ['OK', 'Cancel'])
                                 .then(function (buttonIndex) {
                                     var btnIndex = buttonIndex;
                                     if (btnIndex == "1") {
+
                                         if ($rootScope.cartItems_one.length) {
 
                                             angular.forEach($rootScope.cartItems_one, function (value, key) {
-                                                console.log("key  and value" + value.tnsQuantity + 'for' + value.tnsItem_Id);
+                                              // alert("here is the change value" + value.tnsQuantity + 'for' + value.tnsItem_Id);
                                                 if (value.tnsQuantity === null) {
                                                     $scope.cartError = true;
                                                     $scope.cartErrorData = "Quanity is empty for " + value.tnsItem_Id;
@@ -716,6 +737,7 @@ angular.module('starter.controllers', [])
                                                         jdeCompany: "00010",
                                                         jdeShipTo: value.tnsCustID,
                                                         jdeOrderType: "SO",
+                                                        customerTank:value.tnsTank,
                                                         netGallonsOrdered: value.tnsQuantity,
                                                         productCode: value.tnsItem_Name,
                                                         szReqDeliDtStartString: $rootScope.changedDateCart + $rootScope.startTimeCart,
@@ -726,7 +748,8 @@ angular.module('starter.controllers', [])
                                             });
 
                                             if (cartObject.length) {
-                                                services.placeCart(cartObject).then(function mySuccess(response) {
+
+                                                services.placeCart(cartObject,info).then(function mySuccess(response) {
                                                     var x2js = new X2JS();
                                                     var aftCnv = x2js.xml_str2json(response.data);
                                                     var orderResponse = aftCnv.Envelope.Body.processResponse.outputVO;
@@ -747,8 +770,24 @@ angular.module('starter.controllers', [])
                                                         });
                                                         $ionicLoading.hide();
                                                         $cordovaDialogs.alert('Order has been placed sucessfully, Your invoice number is ' + orderDocumentOrderNoInvoiceetc, 'Order Status', 'OK');
-                                                        if (infodata) {
-                                                            services.deliveryInstruction(JSON.parse(orderDocumentOrderNoInvoiceetc), infodata.orderInstruction, infodata.orderInstructionEmail).then(function mySuccess(response) {
+                                                        $scope.info = {
+                                                            orderInstruction: "",
+                                                            orderInstructionPo: "",
+                                                            orderInstructionEmail: ""
+                                                        };
+                                                        //$rootScope.orderInstruction = "";
+//                 $rootScope.orderInstructionPo = "";
+//                  $rootScope.orderInstructionEmail = "";
+                                                        var oriInfo = angular.copy($scope.info);
+
+
+
+                                                        //$scope.info = angular.copy($scope.master);
+                                                        $rootScope.removeInstrctions = true;
+                                                        window.localStorage.setItem("removeInstrctions", "true");
+
+                                                        if (info) {
+                                                            services.deliveryInstruction(JSON.parse(orderDocumentOrderNoInvoiceetc), info.orderInstruction, info.orderInstructionEmail).then(function mySuccess(response) {
                                                                 console.log("succes in  $scope.delivery instruction" + response);
                                                             }, function myError(response) {
                                                                 console.log("error in  $scope.delivery instruction");
@@ -780,8 +819,8 @@ angular.module('starter.controllers', [])
                                 });
                     } else {
                         //    alert("we have empty records");
-                          $ionicLoading.hide();
-                        $cordovaDialogs.alert('Please check product Quantity', 'Order Status', 'OK');
+                        $ionicLoading.hide();
+                        $cordovaDialogs.alert('Please check product Quantity,Quantity cannot be empty or zero', 'Order Status', 'OK');
                     }
                 });
 
@@ -946,57 +985,70 @@ angular.module('starter.controllers', [])
                 console.log(d.getDate());
                 $scope.tomorrowsDate = d.getDate;
                 services.addressProducts(window.localStorage.getItem('selectedStoreAddress')).then(function mySuccess(response) {
-                    $scope.itemsOutput = response["tns:ItemsOutput"];
-                    console.log(response["tns:ItemsOutput"]);
-                    var i;
-                    if ($scope.itemsOutput.length) {
-                        var arrayObj = $scope.itemsOutput;
-                    } else {
-                        var arr = [];
-                        arr.push($scope.itemsOutput);
-                        var arrayObj = arr;
-                    }
-                    for (i = 0; i < arrayObj.length; i++) {
-                        arrayObj[i].tnsBU = arrayObj[i]['tns:BU'];
-                        arrayObj[i].tnsCustID = arrayObj[i]['tns:CustID'];
-                        arrayObj[i].tnsCust_Name = arrayObj[i]['tns:Cust_Name'];
-                        arrayObj[i].tnsItem_Desc = arrayObj[i]['tns:Item_Desc'];
-                        arrayObj[i].tnsItem_Id = arrayObj[i]['tns:Item_Id'];
-                        arrayObj[i].tnsItem_Name = arrayObj[i]['tns:Item_Name'];
-                        arrayObj[i].tnsItem_Type = arrayObj[i]['tns:Item_Type'];
-                        arrayObj[i].tnsTank = arrayObj[i]['tns:Tank'];
-                        arrayObj[i].tnsTanksize = arrayObj[i]['tns:Tanksize'];
-                        arrayObj[i].tnsUOM = arrayObj[i]['tns:UOM'];
-                        delete arrayObj[i]['tns:BU'];
-                        delete arrayObj[i]['tns:CustID'];
-                        delete arrayObj[i]['tns:Cust_Name'];
-                        delete arrayObj[i]['tns:Item_Desc'];
-                        delete arrayObj[i]['tns:Item_Id'];
-                        delete arrayObj[i]['tns:Item_Name'];
-                        delete arrayObj[i]['tns:Item_Type'];
-                        delete arrayObj[i]['tns:Tank'];
-                        delete arrayObj[i]['tns:Tanksize'];
-                        delete arrayObj[i]['tns:UOM'];
-                    }
-                    $ionicLoading.hide();
-                    $scope.products = arrayObj;
-                    ordertype = $scope.products[0].tnsItem_Type;
-                    if ($scope.products[0].tnsItem_Type == "LUB") {
+
+                    if (response == null) {
+
                         $scope.showSelection = false;
-                        $rootScope.typeOfOrder = "LUB";
-                        window.localStorage.setItem("typeOfOrderLocal", "LUB");
+                        $scope.showLocations = false;
+                        $scope.showLocationText = true;
+                        $ionicLoading.hide();
+
                     } else {
-                        $scope.showSelection = true;
-                        $rootScope.typeOfOrder = "FUEL";
-                        window.localStorage.setItem("typeOfOrderLocal", "FUEL");
+                        $scope.showLocations = true;
+                        $scope.showLocationText = false;
+                        $scope.itemsOutput = response["tns:ItemsOutput"];
+                        console.log(response["tns:ItemsOutput"]);
+                        var i;
+                        if ($scope.itemsOutput.length) {
+                            var arrayObj = $scope.itemsOutput;
+                        } else {
+                            var arr = [];
+                            arr.push($scope.itemsOutput);
+                            var arrayObj = arr;
+                        }
+                        for (i = 0; i < arrayObj.length; i++) {
+                            arrayObj[i].tnsBU = arrayObj[i]['tns:BU'];
+                            arrayObj[i].tnsCustID = arrayObj[i]['tns:CustID'];
+                            arrayObj[i].tnsCust_Name = arrayObj[i]['tns:Cust_Name'];
+                            arrayObj[i].tnsItem_Desc = arrayObj[i]['tns:Item_Desc'];
+                            arrayObj[i].tnsItem_Id = arrayObj[i]['tns:Item_Id'];
+                            arrayObj[i].tnsItem_Name = arrayObj[i]['tns:Item_Name'];
+                            arrayObj[i].tnsItem_Type = arrayObj[i]['tns:Item_Type'];
+                            arrayObj[i].tnsTank = arrayObj[i]['tns:Tank'];
+                            arrayObj[i].tnsTanksize = arrayObj[i]['tns:Tanksize'];
+                            arrayObj[i].tnsUOM = arrayObj[i]['tns:UOM'];
+                            delete arrayObj[i]['tns:BU'];
+                            delete arrayObj[i]['tns:CustID'];
+                            delete arrayObj[i]['tns:Cust_Name'];
+                            delete arrayObj[i]['tns:Item_Desc'];
+                            delete arrayObj[i]['tns:Item_Id'];
+                            delete arrayObj[i]['tns:Item_Name'];
+                            delete arrayObj[i]['tns:Item_Type'];
+                            delete arrayObj[i]['tns:Tank'];
+                            delete arrayObj[i]['tns:Tanksize'];
+                            delete arrayObj[i]['tns:UOM'];
+                        }
+                        $ionicLoading.hide();
+                        $scope.products = arrayObj;
+                        ordertype = $scope.products[0].tnsItem_Type;
+                        if ($scope.products[0].tnsItem_Type == "LUB") {
+                            $scope.showSelection = false;
+                            $rootScope.typeOfOrder = "LUB";
+                            window.localStorage.setItem("typeOfOrderLocal", "LUB");
+                        } else {
+                            $scope.showSelection = true;
+                            $rootScope.typeOfOrder = "FUEL";
+                            window.localStorage.setItem("typeOfOrderLocal", "FUEL");
+                        }
+
                     }
-
-
 
                 }, function myError(response) {
-                    alert('in error');
+                    alert('someting went wrong ! please try again');
                     $ionicLoading.hide();
                 });
+
+
                 $scope.clearSearchString = function () {
                     $scope.search = "";
                 }
@@ -1042,6 +1094,8 @@ angular.module('starter.controllers', [])
                     window.localStorage.setItem("AssignedDate", new Date());
                     $scope.AssignedDate = window.localStorage.getItem("AssignedDate");
                     if ($rootScope.cartLength) {
+                        $rootScope.removeInstrctions = false;
+                        window.localStorage.setItem("removeInstrctions", "false");
                         var storeSql = "SELECT * FROM cart";
                         $cordovaSQLite.execute(db, storeSql, []).then(function (res) {
                             if (res.rows.length > 0) {
@@ -1098,6 +1152,8 @@ angular.module('starter.controllers', [])
                             }
                         });
                     } else {
+                        $rootScope.removeInstrctions = true;
+                        window.localStorage.setItem("removeInstrctions", "true");
                         if (quantity) {
                             var tnsQuantity = quantity;
                         } else {
@@ -1300,10 +1356,10 @@ angular.module('starter.controllers', [])
                     var aftCnv = x2js.xml_str2json(response.Messageresult);
                     var etapackage = aftCnv.Data;
                     if (etapackage.Package) {
-                        $cordovaDialogs.alert('Eta Not Planned', 'Eta Details', 'OK');
+                        $cordovaDialogs.alert('ETA Not Planned', 'ETA Details', 'OK');
 
                     } else {
-                        $cordovaDialogs.alert('Eta Not Planned', 'Eta Details', 'OK');
+                        $cordovaDialogs.alert('ETA Not Planned', 'ETA Details', 'OK');
                     }
                 }, function myError(response) {
                     console.log("error in  $scope.eta");
