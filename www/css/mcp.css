@@ -536,7 +536,7 @@ input[placeholder], [placeholder], *[placeholder] {
 .padding-5{
     padding:5px !important;
 }
-input[type="date"]:before{
+/*input[type="date"]:before{
     color:lightgray !important;
     content:attr(placeholder);
 }
@@ -544,7 +544,7 @@ input[type="date"]:before{
 input[type="date"].full:before {
     color:black;
     content:""!important;
-}
+}*/
 
 ::-webkit-datetime-edit { padding: 1em; }
 ::-webkit-datetime-edit-fields-wrapper { background: silver; }
