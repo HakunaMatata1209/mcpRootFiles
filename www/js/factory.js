@@ -62,20 +62,21 @@ angular.module('starter.factory', [])
   }
 })
         .factory("services", ['$soap', '$http', function ($soap, $http) {
-                var login = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/CSSLoginDetails_PY/csslogindetails_client_ep";
-                var addressDetailsURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/CSSMobileAddressFetchService/cssmobileaddressfetchservice_client_ep";
-                var addressProductsURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/CSSMobileItemsReturnWithAddressNoService/cssmobileitemsreturnwithaddressnoservice_client_ep";
-                var customerOrdersURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/CSSMobileSalesOrderDetails_PY/cssmobilesalesorderdetails_client_ep";
-                var forgotPasswordURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/CSSUserMailCheck_PY/cssusermailcheck_client_ep";
-                var registrationURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/CSSPortalNewUserCreation/cssportalnewusercreationprocess_client_ep";
-                var invoicesampleURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/CSSInvoicePrintService_PY/cssinvoiceprintservice_bpel_client_ep";
-                var etaDetailsURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/exportOIRETAFromPortalAndJDE_PY/eta_bpel_client_ep";
-                var placeCartURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/MCP_MOB/CSSMobileSOCreation/socreationbpelprocess_client_ep?WSDL";
-                var getInvoiceNumberDetailsURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/MCP_MOB/CSSInvoicePrintService_PY/cssinvoiceprintservice_bpel_client_ep";
-                var ETAonOrderNumURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/exportOIRETAFromPortalAndJDE_PY/eta_bpel_client_ep";
-                var PDFonOrderNumURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/CSSPODService_PY/csspodtest_bpel_client_ep";
-                var getInvoiceDetailsURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/MCP_MOB/CSSInvoiceDetails/cssinvoicebpelprocess_client_ep";
-                var deliveryInstructionURL = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/CSS_PY/CSSUpdateDIWithOrderID/cssupdatediwithorderid_bpel_client_ep";
+                var baseUrl="http://b2bpy.mcphersonoil.com:7003/soa-infra/services/";
+                var login = baseUrl+"CSS_PY/CSSLoginDetails_PY/csslogindetails_client_ep";
+                var addressDetailsURL = baseUrl+"CSS_PY/CSSMobileAddressFetchService/cssmobileaddressfetchservice_client_ep";
+                var addressProductsURL = baseUrl+"CSS_PY/CSSMobileItemsReturnWithAddressNoService/cssmobileitemsreturnwithaddressnoservice_client_ep";
+                var customerOrdersURL = baseUrl+"CSS_PY/CSSMobileSalesOrderDetails_PY/cssmobilesalesorderdetails_client_ep";
+                var forgotPasswordURL = baseUrl+"CSS_PY/CSSUserMailCheck_PY/cssusermailcheck_client_ep";
+                var registrationURL = baseUrl+"CSS_PY/CSSPortalNewUserCreation/cssportalnewusercreationprocess_client_ep";
+                var invoicesampleURL = baseUrl+"CSS_PY/CSSInvoicePrintService_PY/cssinvoiceprintservice_bpel_client_ep";
+                var etaDetailsURL =baseUrl+"CSS_PY/exportOIRETAFromPortalAndJDE_PY/eta_bpel_client_ep";
+                var placeCartURL = baseUrl+"MCP_MOB/CSSMobileSOCreation/socreationbpelprocess_client_ep?WSDL";
+                var getInvoiceNumberDetailsURL = baseUrl+"MCP_MOB/CSSInvoicePrintService_PY/cssinvoiceprintservice_bpel_client_ep";
+                var ETAonOrderNumURL = baseUrl+"CSS_PY/exportOIRETAFromPortalAndJDE_PY/eta_bpel_client_ep";
+                var PDFonOrderNumURL = baseUrl+"CSS_PY/CSSPODService_PY/csspodtest_bpel_client_ep";
+                var getInvoiceDetailsURL = baseUrl+"MCP_MOB/CSSInvoiceDetails/cssinvoicebpelprocess_client_ep";
+                var deliveryInstructionURL = baseUrl+"CSS_PY/CSSUpdateDIWithOrderID/cssupdatediwithorderid_bpel_client_ep";
 
                 return {
                     loginUser: function (username, passwordSha1) {
