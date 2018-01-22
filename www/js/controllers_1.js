@@ -220,7 +220,7 @@ angular.module('starter.controllers', [])
             };
         })
         .controller('tabsCtrl', function ($scope, $rootScope, $state, $location, $window, services) {})
-        .controller('OrdersCtrl', function ($scope, services, $ionicActionSheet, $cordovaToast, $rootScope, $cordovaSQLite, $location, base64, $window, $ionicLoading,  $cordovaFile, $base64, $cordovaDialogs, $ionicModal, $cordovaFileOpener2, $filter) {
+        .controller('OrdersCtrl', function ($scope, services, $ionicActionSheet, $cordovaToast, $rootScope, $cordovaSQLite, $location, base64, $window, $ionicLoading, NgTableParams, $cordovaFile, $base64, $cordovaDialogs, $ionicModal, $cordovaFileOpener2, $filter) {
             $scope.$on('$ionicView.enter', function () {
                 $ionicLoading.show({
                     templateUrl: "templates/loading.html",
