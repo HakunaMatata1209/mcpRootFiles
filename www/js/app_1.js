@@ -1,5 +1,5 @@
 var db = null;
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory',  'angularSoap', 'ngCordova',  'pdf', 'base64', 'utf8-base64'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory',  'angularSoap', 'ngCordova', 'ui.rCalendar', 'pdf', 'base64', 'utf8-base64', 'ngTable'])
 
         .run(function ($ionicPlatform, $state, $rootScope, $location, $http, $cordovaSQLite) {
             $rootScope.$on('$stateChangeStart', function () {
