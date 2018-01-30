@@ -10,7 +10,8 @@
             <button  ng-click="logoutHome();" class="button button-icon icon  icon-right"><i class = "icon icon ion-log-out logout-class"  ></i></button> 
         </span>
     </ion-nav-buttons> 
-    <ion-content class="has-header"  overflow-scroll="true">   
+    <ion-content class="has-header"  overflow-scroll="true">
+        
         <div ng-show="cartLength" class=" font-bold subheader" >Your Cart Products:</div>
         <div ng-show="!cartLength" class="text-align-center font-bold subheader">Cart is empty ! Continue shopping.<br>
             <div class="button-bar checkout-bar " padding="'true'"  > 
@@ -75,7 +76,7 @@
                     <textarea     placeholder="PO number" ng-model="info.orderInstructionPo"  name="orderInstructionPo"  /> </textarea> 
                 </label>
                 <label class="item item-input">
-                    <input    type="email"  placeholder="Email" ng-model="info.orderInstructionEmail"   name="orderInstructionEmail" required/>
+                    <input    type="email"  placeholder="Email" ng-model="info.orderInstructionEmail"   name="orderInstructionEmail"   required/>
              
                 </label>
                                            <span style="    color: red !important;
