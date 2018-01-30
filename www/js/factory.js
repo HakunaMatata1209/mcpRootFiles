@@ -4,6 +4,28 @@ angular.module('starter.factory', [])
                 return items.slice().reverse();
             };
         })
+        .directive('multipleEmails', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attrs, ctrl) {
+                    ctrl.$parsers.unshift(function (viewValue) {
+
+                        var emails = viewValue.split(',');
+                        // loop that checks every email, returns undefined if one of them fails.
+                        angular.foreach(emails, function () {
+                            if (____EMAIL_CHECK____) {
+                                // ^ all I need is to call the angular email checker here, I think.
+                                ctrl.$setValidity('multipleEmails', true);
+                                return viewValue;
+                            } else {
+                                ctrl.$setValidity('multipleEmails', false);
+                                return undefined;
+                            }
+                        })
+                    });
+                }
+            };
+        })
         .filter('unique', function () {
             return function (arr, field) {
                 var o = {}, i, l = arr.length, r = [];
@@ -16,6 +38,8 @@ angular.module('starter.factory', [])
                 return r;
             };
         })
+
+
 //        .directive('nextFocus', function () {
 //            return {
 //                restrict: 'A',
@@ -46,37 +70,38 @@ angular.module('starter.factory', [])
 //                }
 //            };
 //        })
-.directive('focus', function() {
-  return {
-    restrict: 'A',
-    link: function($scope,elem,attrs) {
+        .directive('focus', function () {
+            return {
+                restrict: 'A',
+                link: function ($scope, elem, attrs) {
 
-      elem.bind('keydown', function(e) {
-        var code = e.keyCode || e.which;
-        if (code === 13) {
-          e.preventDefault();
-          elem.next().focus();
-        }
-      });
-    }
-  }
-})
-        .factory("services", ['$soap', '$http', function ($soap, $http) {
-                var baseUrl="http://b2bpy.mcphersonoil.com:7003/soa-infra/services/";
-                var login = baseUrl+"CSS_PY/CSSLoginDetails_PY/csslogindetails_client_ep";
-                var addressDetailsURL = baseUrl+"CSS_PY/CSSMobileAddressFetchService/cssmobileaddressfetchservice_client_ep";
-                var addressProductsURL = baseUrl+"CSS_PY/CSSMobileItemsReturnWithAddressNoService/cssmobileitemsreturnwithaddressnoservice_client_ep";
-                var customerOrdersURL = baseUrl+"CSS_PY/CSSMobileSalesOrderDetails_PY/cssmobilesalesorderdetails_client_ep";
-                var forgotPasswordURL = baseUrl+"CSS_PY/CSSUserMailCheck_PY/cssusermailcheck_client_ep";
-                var registrationURL = baseUrl+"CSS_PY/CSSPortalNewUserCreation/cssportalnewusercreationprocess_client_ep";
-                var invoicesampleURL = baseUrl+"CSS_PY/CSSInvoicePrintService_PY/cssinvoiceprintservice_bpel_client_ep";
-                var etaDetailsURL =baseUrl+"CSS_PY/exportOIRETAFromPortalAndJDE_PY/eta_bpel_client_ep";
-                var placeCartURL = baseUrl+"MCP_MOB/CSSMobileSOCreation/socreationbpelprocess_client_ep?WSDL";
-                var getInvoiceNumberDetailsURL = baseUrl+"MCP_MOB/CSSInvoicePrintService_PY/cssinvoiceprintservice_bpel_client_ep";
-                var ETAonOrderNumURL = baseUrl+"CSS_PY/exportOIRETAFromPortalAndJDE_PY/eta_bpel_client_ep";
-                var PDFonOrderNumURL = baseUrl+"CSS_PY/CSSPODService_PY/csspodtest_bpel_client_ep";
-                var getInvoiceDetailsURL = baseUrl+"MCP_MOB/CSSInvoiceDetails/cssinvoicebpelprocess_client_ep";
-                var deliveryInstructionURL = baseUrl+"CSS_PY/CSSUpdateDIWithOrderID/cssupdatediwithorderid_bpel_client_ep";
+                    elem.bind('keydown', function (e) {
+                        var code = e.keyCode || e.which;
+                        if (code === 13) {
+                            e.preventDefault();
+                            elem.next().focus();
+                        }
+                    });
+                }
+            }
+        })
+        .factory("services", ['$soap', '$http','$rootScope', function ($soap, $http,$rootScope) {
+       
+                var baseUrl = "http://b2bpy.mcphersonoil.com:7003/soa-infra/services/";
+                var login = baseUrl + "CSS_PY/CSSLoginDetails_PY/csslogindetails_client_ep";
+                var addressDetailsURL = baseUrl + "CSS_PY/CSSMobileAddressFetchService/cssmobileaddressfetchservice_client_ep";
+                var addressProductsURL = baseUrl + "CSS_PY/CSSMobileItemsReturnWithAddressNoService/cssmobileitemsreturnwithaddressnoservice_client_ep";
+                var customerOrdersURL = baseUrl + "CSS_PY/CSSMobileSalesOrderDetails_PY/cssmobilesalesorderdetails_client_ep";
+                var forgotPasswordURL = baseUrl + "CSS_PY/CSSUserMailCheck_PY/cssusermailcheck_client_ep";
+                var registrationURL = baseUrl + "CSS_PY/CSSPortalNewUserCreation/cssportalnewusercreationprocess_client_ep";
+                var invoicesampleURL = baseUrl + "CSS_PY/CSSInvoicePrintService_PY/cssinvoiceprintservice_bpel_client_ep";
+                var etaDetailsURL = baseUrl + "CSS_PY/exportOIRETAFromPortalAndJDE_PY/eta_bpel_client_ep";
+                var placeCartURL = baseUrl + "MCP_MOB/CSSMobileSOCreation/socreationbpelprocess_client_ep?WSDL";
+                var getInvoiceNumberDetailsURL = baseUrl + "MCP_MOB/CSSInvoicePrintService_PY/cssinvoiceprintservice_bpel_client_ep";
+                var ETAonOrderNumURL = baseUrl + "CSS_PY/exportOIRETAFromPortalAndJDE_PY/eta_bpel_client_ep";
+                var PDFonOrderNumURL = baseUrl + "CSS_PY/CSSPODService_PY/csspodtest_bpel_client_ep";
+                var getInvoiceDetailsURL = baseUrl + "MCP_MOB/CSSInvoiceDetails/cssinvoicebpelprocess_client_ep";
+                var deliveryInstructionURL = baseUrl + "CSS_PY/CSSUpdateDIWithOrderID/cssupdatediwithorderid_bpel_client_ep";
 
                 return {
                     loginUser: function (username, passwordSha1) {
@@ -105,17 +130,17 @@ angular.module('starter.factory', [])
                         return $soap.post(etaDetailsURL, "process", {JDE_Number_Input: eta});
                     },
 
-                    placeCart: function (rootCartObject,info) {
+                    placeCart: function (rootCartObject, info) {
                         //  var options = {responseType: 'text'};
-                    //    alert("the info is"+JSON.stringify(info));
-                     //   alert(info.orderInstruction+info.orderInstructionEmail+info.orderInstructionPo);
-                    //   alert("in place cart"+JSON.stringify(rootCartObject));
-                    //   var Email=info.orderInstructionEmail;
-                   //    var PoNumber=info.orderInstructionPo;
-                        var regexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;  
+                        //    alert("the info is"+JSON.stringify(info));
+                        //   alert(info.orderInstruction+info.orderInstructionEmail+info.orderInstructionPo);
+                        //   alert("in place cart"+JSON.stringify(rootCartObject));
+                        //   var Email=info.orderInstructionEmail;
+                        //    var PoNumber=info.orderInstructionPo;
+                        var regexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
                         window.localStorage.setItem("OrderPoNumber", info.orderInstructionPo);
                         var valid = regexp.test(info.orderInstructionEmail);
-                        if (valid == true) { 
+                        if (valid == true) {
                             window.localStorage.setItem("OrderEmail", info.orderInstructionEmail);
                         } else {
                             window.localStorage.setItem("OrderEmail", " ");
@@ -173,17 +198,14 @@ angular.module('starter.factory', [])
                             xmlString += '<szReqDeliDtStartString>' + rootCartObject[i].szReqDeliDtStartString + '</szReqDeliDtStartString>';
                             xmlString += '<szReqDeliDtEndString>' + rootCartObject[i].szReqDeliDtEndString + '</szReqDeliDtEndString>';
                             xmlString += '<carrier>Mobile</carrier>';
-                            xmlString += '<poNumber>'+window.localStorage.getItem("OrderPoNumber")+'</poNumber>';
-                            xmlString += '<Email>'+window.localStorage.getItem("OrderEmail")+'</Email>';
+                            xmlString += '<poNumber>' + window.localStorage.getItem("OrderPoNumber") + '</poNumber>';
+                            xmlString += '<Email>' + window.localStorage.getItem("OrderEmail") + '</Email>';
                             // xmlString += '<image>' + rootCartObject[i] + '</image>';
                             // xmlString += '<poNumber>' + rootCartObject[i] + '</poNumber>'; 
                             xmlString += '</VMISO>';
                         }
 
                         xmlString += '</VMISOCollection></Body></Envelope> ';
-
-
-
                         return $http({
                             method: 'POST',
                             url: placeCartURL,
@@ -203,12 +225,11 @@ angular.module('starter.factory', [])
                     },
                     getInvoiceNumberDetails: function () {
                         return $soap.post(getInvoiceNumberDetailsURL, "process", {custId: window.localStorage.getItem("addressNumber"), Invoicenumber: window.localStorage.getItem("invoiceNumber")});
-                    },
-                    ETAonOrderNum: function () {
-                        return $soap.post(ETAonOrderNumURL, "process", {JDE_Number_Input: "20103"});
-                    },
+                    }, 
                     PDFonOrderNum: function (num) {
-                        return $soap.post(PDFonOrderNumURL, "process", {input: "3972"});
+                        //alert("the selected invoice number"+num);
+                         return $soap.post(PDFonOrderNumURL, "process", {input: num});
+                    // return $soap.post(PDFonOrderNumURL, "process", {input: "3972"});
                     },
                     getInvoiceDetails: function (CustId) {
                         return $soap.post(getInvoiceDetailsURL, "process", {CustID: CustId});
