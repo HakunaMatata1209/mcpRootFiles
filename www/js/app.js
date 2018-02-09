@@ -1,18 +1,16 @@
 var db = null;
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory',  'angularSoap', 'ngCordova',  'pdf', 'base64', 'utf8-base64','ngIdle'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory', 'angularSoap', 'ngCordova', 'pdf', 'base64', 'utf8-base64', 'ngIdle'])
 
         .run(function ($ionicPlatform, $state, $rootScope, $location, $http, $cordovaSQLite, $ionicPopup, $window, $cordovaDialogs, Idle) {
-            $rootScope.httpErrorReport = function (data, status, headers, config) {
-                //alert('Need to send an email');
-                $cordovaDialogs.prompt('Error Report', 'Error', ['OK', 'Cancel'], 'Do you want to report error to MCP')
-                        .then(function (result) {
-                            var input = result.input1;
-                            // no button = 0, 'OK' = 1, 'Cancel' = 2
-                            var btnIndex = result.buttonIndex;
-                        });
-            }
-
-
+//            $rootScope.httpErrorReport = function (data, status, headers, config) {
+//                //alert('Need to send an email');
+//                $cordovaDialogs.prompt('Error Report', 'Error', ['OK', 'Cancel'], 'Do you want to report error to MCP')
+//                        .then(function (result) {
+//                            var input = result.input1;
+//                            // no button = 0, 'OK' = 1, 'Cancel' = 2
+//                            var btnIndex = result.buttonIndex;
+//                        });
+//            }
             $rootScope.$on('$stateChangeStart', function () {
 //                if ($rootScope.online === true) { 
 //                } else { 
@@ -24,11 +22,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory',  '
                 });
 
             })
-           Idle.watch();
+            Idle.watch();
             $rootScope.$on('IdleTimeout', function () {
                 // end their session and redirect to login.
-               // alert('IDLE');
-               // alert("here in the state go");
+                // alert('IDLE');
+                // alert("here in the state go");
                 window.localStorage.clear();
                 window.localStorage.setItem("email", "null");
                 $rootScope.customerId = "";
@@ -53,7 +51,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory',  '
                     $rootScope.online = true;
                 });
             }, false);
-         
+
             $http.defaults.headers.put['Content-Type'] = 'application/json';
 
             $ionicPlatform.registerBackButtonAction(function (event) {
@@ -64,7 +62,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory',  '
                 }
             }, 100);
             $ionicPlatform.ready(function () {
-              if (window.cordova) {
+                if (window.cordova) {
                     db = $cordovaSQLite.openDB({name: "app.db", bgType: 1, location: 1});
                 } else {
                     db = window.sqlitePlugin.openDatabase("app.db", '1', 'ES Database', 5 * 1024 * 1024);
@@ -118,11 +116,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory',  '
             });
         })
 
-        .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider,IdleProvider,KeepaliveProvider) {
+        .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider, IdleProvider, KeepaliveProvider) {
             $ionicConfigProvider.tabs.position('bottom');
-  IdleProvider.idle(600);
-  IdleProvider.timeout(600);
-  KeepaliveProvider.interval(10); // 
+            IdleProvider.idle(600);
+            IdleProvider.timeout(600);
+            KeepaliveProvider.interval(10); // 
 
             $stateProvider
                     .state('loader', {
