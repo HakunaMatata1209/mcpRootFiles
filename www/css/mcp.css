@@ -234,14 +234,42 @@ Black:#000000;*/
     border-bottom: 1px solid #ddd;
     padding-top: 2px;
 }*/
-.tabs-striped .tabs {
+/*.tabs-striped .tabs {
     background-color: black !important;
     background-image: none;
     border: none;
     border-bottom: 1px solid #ddd;
     padding-top: 2px;
+}*/
+.tabs-striped .tabs {
+    background-color: #000000 !important;
+    background-image: none;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding-top: 2px;
 }
-
+.tabs-striped {
+    background-color: #000000 !important;
+    background-image: none;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding-top: 2px;
+}
+ a.tab-item {
+        background-color: #000000 !important;
+    }
+    a.tab-item-active {
+         background-color: yellow !important;
+    }
+/*.tab-hidden {
+  background-color: #000000 !important; }*/
+/*.tabs-color-active-dark{
+     background-color: black !important;
+    background-image: none !important;
+    border: none !important;
+    border-bottom: 1px solid #ddd !important;
+    padding-top: 2px !important;
+}*/
 /* .tab-item-active{
     background:#b2b2b2 !important;
     color:yellow !important;
