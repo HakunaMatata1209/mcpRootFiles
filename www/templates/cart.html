@@ -10,8 +10,7 @@
             <button  ng-click="logoutHome();" class="button button-icon icon  icon-right"><i class = "icon icon ion-log-out logout-class"  ></i></button> 
         </span>
     </ion-nav-buttons> 
-    <ion-content class="has-header"  overflow-scroll="true">
-        
+    <ion-content class="has-header"  overflow-scroll="true"> 
         <div ng-show="cartLength" class=" font-bold subheader" >Your Cart Products:</div>
         <div ng-show="!cartLength" class="text-align-center font-bold subheader">Cart is empty ! Continue shopping.<br>
             <div class="button-bar checkout-bar " padding="'true'"  > 
@@ -28,7 +27,8 @@
                 <div class="product-header-text">{{checkout.tnsItem_Desc}}</div>
                 <div class="item row item-borderless item-ionic-card product-image margin-top-10"   >
                     <div   class="  col-30">
-                        <img   ng-src="img/product.png"  height="109px;"  width="109px;">
+                            <img src="data:image/jpg;base64,{{checkout.tnsImage}}"  height="109px;"  width="109px;">
+<!--                        <img   ng-src="img/product.png"  height="109px;"  width="109px;">-->
                     </div>
                     <div align="left" class="col-70 product-data line-height"  >
                         <div> <span class="font-bold">Product : </span>{{checkout.tnsItem_Name}}</div>
@@ -76,13 +76,14 @@
                     <textarea     placeholder="PO number" ng-model="info.orderInstructionPo"  name="orderInstructionPo"  /> </textarea> 
                 </label>
                 <label class="item item-input">
-                    <input    type="email"  placeholder="Email" ng-model="info.orderInstructionEmail"   name="orderInstructionEmail"   required/>
+                    <input  type="text"  placeholder="Email" ng-model="info.orderInstructionEmail"   name="orderInstructionEmail" />
              
                 </label>
-                                           <span style="    color: red !important;
+                <p class="padding">Enter an email address for order confirmations and updates. Comma separate email addresses if more than one is required.</p>
+<!--                                           <span style="    color: red !important;
     padding-left: 10px;
     margin-top: 21px !important;
-    text-align: center !important;" class="warning   text-align-center text-align-center" ng-show="instructionForm.orderInstructionEmail.$error.email">Enter valid email address </span>
+    text-align: center !important;" class="warning   text-align-center text-align-center" ng-show="instructionForm.orderInstructionEmail.$error.email">Enter valid email address </span>-->
                   <!--<span     ng-message="required" class="warning   text-align-left">Enter valid email address</span>-->  
             </div>
             </form>
@@ -109,7 +110,7 @@
     background: transparent !important;margin-bottom: -15px;" ng-show="cartLength" >
      <div class="buttons button-bar checkout-bar" padding="'true'"  >  
                 <button  ng-click="continueShopping()"  style="font-size: 15px !important;font-weight: bold !important;" class=" font-bold  buttom-aligned-button button  round background-color-black "  ng-click="movetocart()">Continue Shopping</button>
-                <button  ng-click="checkout(info)" style="font-size: 15px !important;font-weight: bold !important;" class=" font-bold  buttom-aligned-button   button  round background-color-black"  ng-disabled="!cartLength"    >Check Out</button>
+                <button  ng-click="checkout(info)"  style="font-size: 15px !important;font-weight: bold !important;" class=" font-bold  buttom-aligned-button   button  round background-color-black"  ng-disabled="!cartLength"    >Check Out</button>
                 <!--                <button  ng-click="checkout(Info,)" class="buttom-aligned-button button  round background-color-black"   type="submit" id="submit" value="Submit" ng-disabled="((cartQuantityError) || (!cartLength))" >Check Out</button>-->
             </div> 
 <!--  <div class="title buttons row">

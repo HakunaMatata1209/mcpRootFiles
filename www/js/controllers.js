@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
         .controller('LoaderInCtrl', function ($scope, $state, $cordovaToast, services, $rootScope, $location, $ionicLoading, $cordovaSQLite, $cordovaDialogs) {
-            try {
+            try {//app navigation at the time of loading
                 $scope.$on('$ionicView.enter', function () {
                     var logginSessoin = window.localStorage.getItem("email");
                     if (logginSessoin && logginSessoin !== "null") {
@@ -19,14 +19,13 @@ angular.module('starter.controllers', [])
                     $location.path('/sign-up');
                 }
             } catch (e) {
-                alert("in catch error");
+                console.log("in catch error");
             }
         })
         .controller('SignInCtrl', function ($scope, $state, $cordovaToast, services, $rootScope, $location, $ionicLoading, $cordovaDialogs) {
-            try {
+            try {//Checking the login process with the given credentials
                 $scope.$on('$ionicView.enter', function () {
-                    $scope.signIn = function (username, password) {
-
+                    $scope.signIn = function (username, password) { 
                         var passwordSha1 = CryptoJS.SHA1(password).toString();
                         if ($rootScope.online === true) {
                             $ionicLoading.show({
@@ -54,14 +53,13 @@ angular.module('starter.controllers', [])
                                         $state.go('tab.home', {
                                             reload: true
                                         });
-                                    }, function (error) {// error
+                                    }, function (error) {// error                                         
                                     });
                                 }
                             }, function myError(response) {
-                                console.log('in error');
+                                console.log(' services.loginUser in error');
                                 $rootScope.httpErrorReport(response);
-                                $rootScope.httpErrorReport(response);
-
+                                $rootScope.httpErrorReport(response); 
                                 $cordovaToast.showShortCenter('Error occured! Please try again later.').then(function (success) {// success
                                 }, function (error) {// error
                                 });
@@ -79,7 +77,7 @@ angular.module('starter.controllers', [])
                     $location.path('/sign-up');
                 }
             } catch (e) {
-                alert("in catch error");
+                console.log("in catch error");
             }
         })
         .controller('SignUpCtrl', function ($scope, $state, $location, services, $rootScope, $ionicLoading, $cordovaToast, $cordovaDialogs) {
@@ -229,8 +227,7 @@ angular.module('starter.controllers', [])
                     window.localStorage.setItem("email", "null");
                     var emptyDb = "DELETE FROM cart";
                     $cordovaSQLite.execute(db, emptyDb, []).then(function (res) {
-                        console.log("the detele response" + JSON.stringify(res));
-
+                        console.log("the detele response" + JSON.stringify(res)); 
                     });
                     $rootScope.customerId = " ";
                     $rootScope.cartLength = "";
@@ -489,9 +486,9 @@ angular.module('starter.controllers', [])
                                 if ($rootScope.online === true) {
                                     services.PDFonOrderNum(selectedInvoice.tnsOrder_Invoice).then(function mySuccess(response) {
                                         console.log(response);
-                                      //  alert("the response in pdf"+response['tns:result']);
-                                      
-                                        if (response['tns:result']) { 
+                                        //  alert("the response in pdf"+response['tns:result']);
+
+                                        if (response['tns:result']) {
                                             var myBase64 = response['tns:result'];
                                             var contentType = "application/pdf";
                                             var folderpath = cordova.file.externalRootDirectory;
@@ -541,13 +538,13 @@ angular.module('starter.controllers', [])
                                             }
                                             savebase64AsPDF(folderpath, filename, myBase64, contentType);
                                         } else {
-                                               $cordovaDialogs.alert('POD not avaialable for invoice number  ' + selectedInvoice.tnsOrder_Invoice, 'POD', 'OK');
+                                            $cordovaDialogs.alert('POD not avaialable for invoice number  ' + selectedInvoice.tnsOrder_Invoice, 'POD', 'OK');
 //                                            $cordovaToast.showShortCenter('POD not avaialable for invoice number.' + selectedInvoice.tnsOrder_Invoice).then(function (success) {// success
 //                                            }, function (error) {// error
 //                                            });
                                         }
-                                    
-                                    
+
+
                                     }, function myError(response) {
                                         console.log('in error');
                                         $rootScope.httpErrorReport(response);
@@ -555,11 +552,11 @@ angular.module('starter.controllers', [])
                                         }, function (error) {// error
                                         });
                                     });
-                                     } else {
+                                } else {
                                     $ionicLoading.hide();
                                     $cordovaDialogs.alert('Sorry, no Internet connectivity detected. Please reconnect and try again.', 'No Internet Connection', 'OK');
                                 }
-                             
+
                             } else {
                                 $scope.selectedInvoiceData = selectedInvoice;
                                 $scope.modal.show();
@@ -577,10 +574,11 @@ angular.module('starter.controllers', [])
         })
         .controller('cartCtrl', function ($scope, $ionicPopup, $state, $rootScope, $cordovaSQLite, $cordovaDialogs, $location, $cordovaToast, services, $ionicLoading) { // define $ionicPopup here
             try {
+                //alert("in cart controller");
                 $scope.info = {
                     orderInstruction: "",
                     orderInstructionPo: "",
-                    orderInstructionEmail: ""
+                    orderInstructionEmail: window.localStorage.getItem("email")
                 };
                 $scope.$on('$ionicView.enter', function () {
                     var then = window.localStorage.getItem("AssignedDate");
@@ -617,7 +615,9 @@ angular.module('starter.controllers', [])
                                     tnsTanksize: res.rows.item(i).tnsTanksize,
                                     tnsUOM: res.rows.item(i).tnsUOM,
                                     tnsQuantity: res.rows.item(i).tnsQuantity,
+                                    tnsImage: res.rows.item(i).tnsImage,
                                     tnsStore: res.rows.item(i).tnsStore
+
                                 });
                             }
                         } else {
@@ -707,9 +707,9 @@ angular.module('starter.controllers', [])
                     $location.path('/sign-in');
                 };
 
-                $scope.checkout = function (info) {
+                $scope.checkout = function (info) { 
                     $scope.cartError = false;
-                    $scope.cartErrorDisable = false; 
+                    $scope.cartErrorDisable = false;
                     var countRecords = "SELECT count(*) AS cnt FROM cart WHERE tnsQuantity = ?";
                     $cordovaSQLite.execute(db, countRecords, ["0"]).then(function (res) {
                         if (res.rows.item(0).cnt == "0") {
@@ -722,6 +722,10 @@ angular.module('starter.controllers', [])
                                     .then(function (buttonIndex) {
                                         var btnIndex = buttonIndex;
                                         if (btnIndex == "1") {
+                                             $ionicLoading.show({
+                                templateUrl: "templates/loading.html",
+                                noBackdrop: false
+                            });
                                             if ($rootScope.cartItems_one.length) {
                                                 angular.forEach($rootScope.cartItems_one, function (value, key) {
                                                     if (value.tnsQuantity === null) {
@@ -777,7 +781,7 @@ angular.module('starter.controllers', [])
                                                                 $scope.info = {
                                                                     orderInstruction: "",
                                                                     orderInstructionPo: "",
-                                                                    orderInstructionEmail: ""
+                                                                    orderInstructionEmail:  window.localStorage.getItem("email")
                                                                 };
                                                                 //$rootScope.orderInstruction = "";
 //                 $rootScope.orderInstructionPo = "";
@@ -991,6 +995,7 @@ angular.module('starter.controllers', [])
                             noBackdrop: false
                         });
                         services.addressProducts(window.localStorage.getItem('selectedStoreAddress')).then(function mySuccess(response) {
+
                             if (response == null) {
                                 $scope.showSelection = false;
                                 $scope.showLocations = false;
@@ -1000,7 +1005,7 @@ angular.module('starter.controllers', [])
                                 $scope.showLocations = true;
                                 $scope.showLocationText = false;
                                 $scope.itemsOutput = response["tns:ItemsOutput"];
-                                console.log(response["tns:ItemsOutput"]);
+                                console.log("here is the cata" + JSON.stringify(response["tns:ItemsOutput"]));
                                 var i;
                                 if ($scope.itemsOutput.length) {
                                     var arrayObj = $scope.itemsOutput;
@@ -1019,6 +1024,7 @@ angular.module('starter.controllers', [])
                                     arrayObj[i].tnsItem_Type = arrayObj[i]['tns:Item_Type'];
                                     arrayObj[i].tnsTank = arrayObj[i]['tns:Tank'];
                                     arrayObj[i].tnsTanksize = arrayObj[i]['tns:Tanksize'];
+                                    arrayObj[i].tnsImage = arrayObj[i]['image'];
                                     arrayObj[i].tnsUOM = arrayObj[i]['tns:UOM'];
                                     delete arrayObj[i]['tns:BU'];
                                     delete arrayObj[i]['tns:CustID'];
@@ -1029,10 +1035,12 @@ angular.module('starter.controllers', [])
                                     delete arrayObj[i]['tns:Item_Type'];
                                     delete arrayObj[i]['tns:Tank'];
                                     delete arrayObj[i]['tns:Tanksize'];
+                                    delete arrayObj[i]['image'];
                                     delete arrayObj[i]['tns:UOM'];
                                 }
                                 $ionicLoading.hide();
                                 $scope.products = arrayObj;
+
                                 ordertype = $scope.products[0].tnsItem_Type;
                                 if ($scope.products[0].tnsItem_Type == "LUB") {
                                     $scope.showSelection = false;
@@ -1094,7 +1102,7 @@ angular.module('starter.controllers', [])
                         }
 
                     };
-                    $scope.addToCart = function (tnsBU, tnsCustID, tnsCust_Name, tnsItem_Desc, tnsItem_Id, tnsItem_Name, tnsItem_Type, tnsTank, tnsTanksize, tnsUOM, quantity) {
+                    $scope.addToCart = function (tnsBU, tnsCustID, tnsCust_Name, tnsItem_Desc, tnsItem_Id, tnsItem_Name, tnsItem_Type, tnsTank, tnsTanksize, tnsUOM, quantity, tnsImage) {
                         window.localStorage.setItem("AssignedDate", new Date());
                         $scope.AssignedDate = window.localStorage.getItem("AssignedDate");
                         if ($rootScope.cartLength) {
@@ -1135,13 +1143,20 @@ angular.module('starter.controllers', [])
                                                 }, function (error) {
 // error
                                                 });
-//  $rootScope.cartItems.push({tnsBU: tnsBU, tnsCustID: tnsCustID, tnsCust_Name: tnsCust_Name, tnsItem_Desc: tnsItem_Desc, tnsItem_Id: tnsItem_Id, tnsItem_Name: tnsItem_Name, tnsItem_Type: tnsItem_Type, tnsTank: tnsTank, tnsTanksize: tnsTanksize, tnsUOM: tnsUOM, tnsQuantity: tnsQuantity, tnsStore: window.localStorage.getItem('selectedStoreAddress')});
-                                                var query = "INSERT INTO cart (tnsBU,tnsCustID,tnsCust_Name,tnsItem_Desc,tnsItem_Id,tnsItem_Name,tnsItem_Type,tnsTank,tnsTanksize,tnsUOM,tnsQuantity,tnsStore) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-                                                $cordovaSQLite.execute(db, query, [tnsBU, tnsCustID, tnsCust_Name, tnsItem_Desc, tnsItem_Id, tnsItem_Name, tnsItem_Type, tnsTank, tnsTanksize, tnsUOM, tnsQuantity, window.localStorage.getItem('selectedStoreAddress')]).then(function (res) {
+                                                var checkstore = window.localStorage.getItem('selectedStoreAddress');
+                                                var query = "INSERT INTO cart (tnsBU,tnsCustID,tnsCust_Name,tnsItem_Desc,tnsItem_Id,tnsItem_Name,tnsItem_Type,tnsTank,tnsTanksize,tnsUOM,tnsQuantity,tnsStore,tnsImage) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                                $cordovaSQLite.execute(db, query, [tnsBU, tnsCustID, tnsCust_Name, tnsItem_Desc, tnsItem_Id, tnsItem_Name, tnsItem_Type, tnsTank, tnsTanksize, tnsUOM, tnsQuantity, checkstore, tnsImage]).then(function (res) {
                                                     console.log("insertId in original logic if: " + res.insertId);
                                                 }, function (err) {
                                                     console.log("in error if " + JSON.stringify(err));
                                                 });
+//  $rootScope.cartItems.push({tnsBU: tnsBU, tnsCustID: tnsCustID, tnsCust_Name: tnsCust_Name, tnsItem_Desc: tnsItem_Desc, tnsItem_Id: tnsItem_Id, tnsItem_Name: tnsItem_Name, tnsItem_Type: tnsItem_Type, tnsTank: tnsTank, tnsTanksize: tnsTanksize, tnsUOM: tnsUOM, tnsQuantity: tnsQuantity, tnsStore: window.localStorage.getItem('selectedStoreAddress')});
+//                                                var query = "INSERT INTO cart (tnsBU,tnsCustID,tnsCust_Name,tnsItem_Desc,tnsItem_Id,tnsItem_Name,tnsItem_Type,tnsTank,tnsTanksize,tnsUOM,tnsQuantity,tnsStore,tnsImage) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//                                                $cordovaSQLite.execute(db, query, [tnsBU, tnsCustID, tnsCust_Name, tnsItem_Desc, tnsItem_Id, tnsItem_Name, tnsItem_Type, tnsTank, tnsTanksize, tnsUOM, tnsQuantity, window.localStorage.getItem('selectedStoreAddress'),tnsImage]).then(function (res) {
+//                                                    console.log("insertId in original logic if: " + res.insertId);
+//                                                }, function (err) {
+//                                                    console.log("in error if " + JSON.stringify(err));
+//                                                });
                                                 var countSql = "SELECT count(*) AS cnt FROM cart";
                                                 $cordovaSQLite.execute(db, countSql, []).then(function (res) {
                                                     $rootScope.cartLength = res.rows.item(0).cnt;
@@ -1188,9 +1203,10 @@ angular.module('starter.controllers', [])
                                     }, function (error) {
 // error
                                     });
-// $rootScope.cartItems.push({tnsBU: tnsBU, tnsCustID: tnsCustID, tnsCust_Name: tnsCust_Name, tnsItem_Desc: tnsItem_Desc, tnsItem_Id: tnsItem_Id, tnsItem_Name: tnsItem_Name, tnsItem_Type: tnsItem_Type, tnsTank: tnsTank, tnsTanksize: tnsTanksize, tnsUOM: tnsUOM, tnsQuantity: tnsQuantity, tnsStore: window.localStorage.getItem('selectedStoreAddress')});
-                                    var query = "INSERT INTO cart (tnsBU,tnsCustID,tnsCust_Name,tnsItem_Desc,tnsItem_Id,tnsItem_Name,tnsItem_Type,tnsTank,tnsTanksize,tnsUOM,tnsQuantity,tnsStore) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-                                    $cordovaSQLite.execute(db, query, [tnsBU, tnsCustID, tnsCust_Name, tnsItem_Desc, tnsItem_Id, tnsItem_Name, tnsItem_Type, tnsTank, tnsTanksize, tnsUOM, tnsQuantity, window.localStorage.getItem('selectedStoreAddress')]).then(function (res) {
+                                    // alert("here is the data"+tnsImage);
+                                    var checkstore = window.localStorage.getItem('selectedStoreAddress');
+                                    var query = "INSERT INTO cart (tnsBU,tnsCustID,tnsCust_Name,tnsItem_Desc,tnsItem_Id,tnsItem_Name,tnsItem_Type,tnsTank,tnsTanksize,tnsUOM,tnsQuantity,tnsStore,tnsImage) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                    $cordovaSQLite.execute(db, query, [tnsBU, tnsCustID, tnsCust_Name, tnsItem_Desc, tnsItem_Id, tnsItem_Name, tnsItem_Type, tnsTank, tnsTanksize, tnsUOM, tnsQuantity, checkstore, tnsImage]).then(function (res) {
                                         console.log("insertId in original logic if: " + res.insertId);
                                     }, function (err) {
                                         console.log("in error if " + JSON.stringify(err));
@@ -1552,7 +1568,7 @@ angular.module('starter.controllers', [])
                             $scope.totalAmount = arrayObj1.tnsextendedprice;
                             $ionicLoading.hide();
                         }, function myError(response) {
-                            alert('in error');
+                          //  alert('in error');
                             $rootScope.httpErrorReport(response);
                             $ionicLoading.hide();
                         });

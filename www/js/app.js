@@ -68,7 +68,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factory', 'a
                     db = window.sqlitePlugin.openDatabase("app.db", '1', 'ES Database', 5 * 1024 * 1024);
                 }
 
-                $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS cart (id integer primary key autoincrement, tnsBU text,tnsCustID text,tnsCust_Name text,tnsItem_Desc text,tnsItem_Id text,tnsItem_Name text,tnsItem_Type text,tnsTank text,tnsTanksize text,tnsUOM text,tnsQuantity text,tnsStore text, Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)").then(
+                $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS cart (id integer primary key autoincrement, tnsBU text,tnsCustID text,tnsCust_Name text,tnsItem_Desc text,tnsItem_Id text,tnsItem_Name text,tnsItem_Type text,tnsTank text,tnsTanksize text,tnsUOM text,tnsQuantity text,tnsStore text,tnsImage BLOB ,Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)").then(
                         function (success) {
                             console.log("created the databse qq app config");
                         },
