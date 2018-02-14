@@ -38,6 +38,24 @@ angular.module('starter.factory', [])
                 return r;
             };
         })
+ /*  .directive('multipleEmails', function () {
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, ctrl ) {
+        var emailsRegex = /^[\W]*([\w+\-.%]+@[\w\-.]+\.[A-Za-z]{2,4}[\W]*,{1}[\W]*)*([\w+\-.%]+@[\w\-.]+\.[A-Za-z]{2,4})[\W]*$/;
+        ctrl.$parsers.unshift(function(viewValue) {
+          if (emailsRegex.test(viewValue)) {
+            ctrl.$setValidity('multipleEmails', true);
+            return viewValue;
+          } else {
+            ctrl.$setValidity('multipleEmails', false);
+            return undefined;
+          }
+        });
+      }
+    };
+ })*/
+  
 
 
 //        .directive('nextFocus', function () {
@@ -137,14 +155,14 @@ angular.module('starter.factory', [])
                         //   alert("in place cart"+JSON.stringify(rootCartObject));
                         //   var Email=info.orderInstructionEmail;
                         //    var PoNumber=info.orderInstructionPo;
-                        var regexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-                        window.localStorage.setItem("OrderPoNumber", info.orderInstructionPo);
-                        var valid = regexp.test(info.orderInstructionEmail);
-                        if (valid == true) {
+                      //  var regexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+                      //  window.localStorage.setItem("OrderPoNumber", info.orderInstructionPo);
+                        //var valid = regexp.test(info.orderInstructionEmail);
+                        //if (valid == true) {
                             window.localStorage.setItem("OrderEmail", info.orderInstructionEmail);
-                        } else {
-                            window.localStorage.setItem("OrderEmail", " ");
-                        }
+                       // } else {
+                         //   window.localStorage.setItem("OrderEmail", " ");
+                       // }
                         /*  var soap = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">' +
                          '<Body>' +
                          '<VMISOCollection xmlns="http://xmlns.oracle.com/MCP_MOBILE/CSSMobileSOCreation/SOCreationBPELProcess">' +
@@ -217,6 +235,7 @@ angular.module('starter.factory', [])
                             }
                         }).success(function (data) {
                             console.log("the success data" + data);
+                              window.localStorage.setItem("OrderEmail", "");
 
                         }).error(function (data) {
                             console.log("the error data" + data);

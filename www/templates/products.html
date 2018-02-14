@@ -69,7 +69,8 @@
             
             <div class="item row item-borderless item-ionic-card product-image margin-top-10">
                 <div   class="  col-30">
-                    <img   ng-src="img/product.png"  height="109px;"  width="109px;">
+                      <img src="data:image/jpg;base64,{{product.tnsImage}}"  height="109px;"  width="109px;">
+<!--                    <img   ng-src="img/product.png"  height="109px;"  width="109px;">-->
                 </div>
                 <div align="left" class="col-70 product-data line-height"  >
                     <div> <span class="font-bold">Product : </span>{{product.tnsItem_Name}}</div>
@@ -97,8 +98,8 @@
                 </div>
             </div>
             <div class="button-bar text-align-center" > 
-                <button   ng-show="product.tnsTanksize != null" ng-disabled="((productqty > product.tnsTanksize) || (!productqty))" class="ionic-icon-size button button-positive button-clear button-block  icon ion-android-cart"ng-click="addToCart(product.tnsBU, product.tnsCustID, product.tnsCust_Name, product.tnsItem_Desc, product.tnsItem_Id, product.tnsItem_Name, product.tnsItem_Type, product.tnsTank, product.tnsTanksize, product.tnsUOM, productqty)"></button>
-                <button   ng-show="product.tnsTanksize == null" ng-disabled="!productqty" class="ionic-icon-size button button-positive button-clear button-block  icon ion-android-cart" ng-click="addToCart(product.tnsBU, product.tnsCustID, product.tnsCust_Name, product.tnsItem_Desc, product.tnsItem_Id, product.tnsItem_Name, product.tnsItem_Type, product.tnsTank, product.tnsTanksize, product.tnsUOM, productqty)"></button>
+                <button   ng-show="product.tnsTanksize != null" ng-disabled="((productqty > product.tnsTanksize) || (!productqty))" class="ionic-icon-size button button-positive button-clear button-block  icon ion-android-cart"ng-click="addToCart(product.tnsBU, product.tnsCustID, product.tnsCust_Name, product.tnsItem_Desc, product.tnsItem_Id, product.tnsItem_Name, product.tnsItem_Type, product.tnsTank, product.tnsTanksize, product.tnsUOM, productqty,product.tnsImage)"></button>
+                <button   ng-show="product.tnsTanksize == null" ng-disabled="!productqty" class="ionic-icon-size button button-positive button-clear button-block  icon ion-android-cart" ng-click="addToCart(product.tnsBU, product.tnsCustID, product.tnsCust_Name, product.tnsItem_Desc, product.tnsItem_Id, product.tnsItem_Name, product.tnsItem_Type, product.tnsTank, product.tnsTanksize, product.tnsUOM, productqty,product.tnsImage)"></button>
             </div>
         </div> 
         </form>
